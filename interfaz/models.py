@@ -2,6 +2,11 @@ from django.db import models
 
 # Create your models here.
 
+class Rbdms(models.Model):
+	name = models.CharField(max_length=15)
+	def __str__():
+		return self.name
+
 class HardwareType(models.Model):
 	name = models.CharField(max_length=10)
 	specifications = models.TextField(max_length=1000)
