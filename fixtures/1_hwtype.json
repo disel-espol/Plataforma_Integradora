@@ -1,0 +1,19 @@
+[
+	{
+		"model":"interfaz.HardwareType",
+		"pk":1,
+		"fields": {
+			"name":"d430",
+			"specifications":"Especificiones del d430"
+		}
+	},
+
+	{
+		"model":"interfaz.HardwareType",
+		"pk":2,
+		"fields": {
+			"name":"d710",
+			"specifications":"Especificiones del d710"
+		}
+	}
+]

@@ -1,0 +1,9 @@
+[
+	{
+		"model":"interfaz.OSType",
+		"pk":1,
+		"fields": {
+			"name":"Ubuntu 18.04 LTS",
+		}
+	}
+]
