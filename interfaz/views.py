@@ -9,12 +9,14 @@ def index(request):
 	if(request.method == 'POST'):
 		form = TestForm(request.POST)
 		if(form.is_valid()):
+			print("form is valid")
 			"""
 			TODO:
 				Ejecutar bash script
 			"""
 			return redirect('results')
 	else:
+		print("carga")
 		form = TestForm(request.POST)
 	return render(request, 'index.html', {'form':form})
 

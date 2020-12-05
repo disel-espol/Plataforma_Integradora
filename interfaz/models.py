@@ -22,7 +22,7 @@ class OSType(models.Model):
 
 
 class Test(models.Model):
-	rdbms = models.ForeignKey(Rbdms)
-	hw_type = models.ForeignKey(HardwareType)
+	rdbms = models.ForeignKey(Rbdms, on_delete=models.CASCADE)
+	hw_type = models.ForeignKey(HardwareType, on_delete=models.CASCADE)
 	hw_spec = models.CharField(max_length=1000)
-	os_type = models.ForeignKey(OSType)
+	os_type = models.ForeignKey(OSType, on_delete=models.CASCADE)

@@ -3,4 +3,4 @@ from os.path import isfile, join
 
 
 
-system("python manage.py loaddata fixtures\\"+" fixtures\\".join(listdir("fixtures")))
+system("py manage.py loaddata fixtures\\"+" fixtures\\".join(listdir("fixtures")))

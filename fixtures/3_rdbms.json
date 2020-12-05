@@ -3,7 +3,7 @@
 		"model":"interfaz.Rbdms",
 		"pk":1,
 		"fields": {
-			"name":"MySQL",
+			"name":"MySQL"
 		}
 	},
 
@@ -11,7 +11,7 @@
 		"model":"interfaz.Rbdms",
 		"pk":2,
 		"fields": {
-			"name":"PostgreSQL",
+			"name":"PostgreSQL"
 		}
 	},
 
@@ -19,7 +19,7 @@
 		"model":"interfaz.Rbdms",
 		"pk":3,
 		"fields": {
-			"name":"MariaDB",
+			"name":"MariaDB"
 		}
 	}
 ]
