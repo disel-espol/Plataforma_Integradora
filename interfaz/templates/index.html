@@ -2,19 +2,27 @@
 {% load static %}
 
 {% block content %}
-<div class="container-fluid">
+<form method='POST' id='testForm'>
+	{% csrf_token %}
 	<div class="row">
 		<div class="col-12">
-			
+			{{ form.rdbms.errors }}
+    		{{ form.rdbms.label_tag }}
+    		{{ form.rdbms }}
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-6">
-			
+			{{ form.hw_type.errors }}
+    		{{ form.hw_type.label_tag }}
+    		{{ form.hw_type }}
 		</div>
 		<div class="col-6">
-			
+			{{ form.os_type.errors }}
+    		{{ form.os_type.label_tag }}
+    		{{ form.os_type }}
 		</div>
 	</div>
-</div>
+	<button type="submit">Ejecutar</button>
+</form>
 {% endblock content %}
