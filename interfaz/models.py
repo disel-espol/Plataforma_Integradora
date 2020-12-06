@@ -4,7 +4,7 @@ from django.db import models
 
 class Rbdms(models.Model):
 	name = models.CharField(max_length=15)
-	def __str__():
+	def __str__(self):
 		return self.name
 
 
@@ -22,7 +22,7 @@ class OSType(models.Model):
 
 
 class Test(models.Model):
-	rdbms = models.ForeignKey(Rbdms, on_delete=models.CASCADE)
+	rdbms = models.ManyToManyField(Rbdms)
 	hw_type = models.ForeignKey(HardwareType, on_delete=models.CASCADE)
 	hw_spec = models.CharField(max_length=1000)
 	os_type = models.ForeignKey(OSType, on_delete=models.CASCADE)

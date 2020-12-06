@@ -13,8 +13,16 @@ class TestForm(forms.ModelForm):
 		}
 
 		widgets = {
-			'rdbms': forms.CheckboxInput(attrs={'required':True}),
+			'rdbms': forms.CheckboxSelectMultiple(attrs={"class":"form-control", 'required':True}),
 			'hw_type': forms.Select(attrs={"class":"form-control", 'required':True}), #queryset=HardwareType.objects.all().order_by('name')
 			'hw_spec': forms.Textarea(attrs={'readonly':True, 'rows':8}),
 			'os_type': forms.Select(attrs={"class":"form-control", 'required':True}),
 		}
+
+
+'''class TestForm(forms.Form):
+	rdbms = forms.ModelMultipleChoiceField(queryset=Rbdms.objects.all(), widget=c
+	hw_type = forms.ModelChoiceField(queryset=HardwareType.objects.all(), widget=forms.Select(attrs={"class":"form-control", 'required':True}))
+	hw_spec = forms.CharField(widget=forms.Textarea(attrs={'readonly':True, 'rows':8}))
+	os_type = forms.ModelChoiceField(queryset=OSType.objects.all(), widget=forms.Select(attrs={"class":"form-control", 'required':True}))
+'''

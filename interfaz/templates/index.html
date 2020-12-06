@@ -8,7 +8,12 @@
 		<div class="col-12">
 			{{ form.rdbms.errors }}
     		{{ form.rdbms.label_tag }}
-    		{{ form.rdbms }}
+    		{% for value, text in form.rdbms.field.choices %}
+				<div class="form-check form-check-inline">
+					<input name="{{ form.rdbms.name }}" type="checkbox" value="{{ value }}">
+					<label>{{ text }}</label>
+				</div>
+    		{% endfor %}
 		</div>
 	</div>
 	<div class="row">

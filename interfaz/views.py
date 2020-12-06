@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.http import HttpResponse
+from django.template import RequestContext
 from .models import Rbdms, HardwareType, OSType, Test
 from .forms import TestForm
 
