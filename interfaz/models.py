@@ -24,5 +24,5 @@ class OSType(models.Model):
 class Test(models.Model):
 	rdbms = models.ManyToManyField(Rbdms)
 	hw_type = models.ForeignKey(HardwareType, on_delete=models.CASCADE)
-	hw_spec = models.CharField(max_length=1000)
+	hw_spec = models.CharField(max_length=1000, blank=True)
 	os_type = models.ForeignKey(OSType, on_delete=models.CASCADE)
