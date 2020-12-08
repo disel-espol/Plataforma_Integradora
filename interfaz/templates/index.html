@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
+
+{% block extraheader %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+{% endblock extraheader %}
 
 {% block content %}
-<form method='POST' id='testForm'>
+<form method='POST' id='testForm' novalidate>
 	{% csrf_token %}
 	<div class="row">
 		<div class="col-12">
-			{{ form.rdbms.errors }}
     		{{ form.rdbms.label_tag }}
     		{% for value, text in form.rdbms.field.choices %}
 				<div class="form-check form-check-inline">
@@ -18,14 +22,18 @@
 	</div>
 	<div class="row">
 		<div class="col-6">
-			{{ form.hw_type.errors }}
-    		{{ form.hw_type.label_tag }}
-    		{{ form.hw_type }}
+			{{ form.hw_type|as_crispy_field }}
 		</div>
 		<div class="col-6">
-			{{ form.os_type.errors }}
-    		{{ form.os_type.label_tag }}
-    		{{ form.os_type }}
+			{{ form.os_type|as_crispy_field }}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6">
+			{{ form.hw_spec|as_crispy_field }}
+		</div>
+		<div class="col-6">
+
 		</div>
 	</div>
 	<button type="submit">Ejecutar</button>

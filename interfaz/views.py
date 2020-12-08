@@ -11,6 +11,7 @@ def index(request):
 		form = TestForm(request.POST)
 		if(form.is_valid()):
 			print("form is valid")
+			print(form)
 			"""
 			TODO:
 				Ejecutar bash script
