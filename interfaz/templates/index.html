@@ -13,13 +13,22 @@
 		<div class="col-12">
     		<!--{{ form.rdbms.label_tag }}-->
     		<label class="col-form-label">{{ form.rdbms.label }}</label>
-    		<div class="row justify-content-center gx-20">
-	    		{% for value, text in form.rdbms.field.choices %}
-					<div class="form-check form-check-inline">
-						<input name="{{ form.rdbms.name }}" type="checkbox" value="{{ value }}">
-						<label>{{ text }}</label>
+    		<div class="row justify-content-center">
+    			<div class="form-check form-check-inline">
+	    			{% for value, text in form.rdbms.field.choices %}
+	    			<div class="col-4">
+	    				<div class="custom-control custom-checkbox image-checkbox">
+	    					<input name="{{ form.rdbms.name }}" type="checkbox" class="custom-control-input" value="{{ value }}" id="id_rdbms_{{ forloop.counter0 }}">
+	    					<label class="custom-control-label" for="id_rdbms_{{ forloop.counter0 }}">
+				                <img src="{% static 'img/MariaDB.png' %}" alt="{{ value }}" class="img-fluid">
+				            </label>
+
+							<!--<input name="{{ form.rdbms.name }}" type="checkbox" value="{{ value }}">
+							<label>{{ text }}</label>-->
+						</div>
 					</div>
-	    		{% endfor %}
+	    			{% endfor %}
+	    		</div>
     		</div>
 		</div>
 	</div>
