@@ -1,0 +1,28 @@
+[
+	{
+		"model":"interfaz.DbConfig",
+		"pk":1,
+		"fields": {
+			"name":"Configuracion 1",
+			"specifications":"Especificiones de Configuracion 1"
+		}
+	},
+
+	{
+		"model":"interfaz.DbConfig",
+		"pk":2,
+		"fields": {
+			"name":"Configuracion 2",
+			"specifications":"Especificiones de Configuracion 2"
+		}
+	},
+
+	{
+		"model":"interfaz.DbConfig",
+		"pk":3,
+		"fields": {
+			"name":"Configuracion 3",
+			"specifications":"Especificiones de Configuracion 3"
+		}
+	}
+]

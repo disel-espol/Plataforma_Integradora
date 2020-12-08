@@ -9,6 +9,7 @@ class TestForm(forms.ModelForm):
 		labels = {
 			'rdbms': 'Seleccione el/los RDBMS',
 			'hw_type': 'Configuración de hardware',
+			'db_config': 'Configuración de base de datos',
 			'os_type': 'Sistema Operativo',
 		}
 
@@ -16,6 +17,8 @@ class TestForm(forms.ModelForm):
 			'rdbms': forms.CheckboxSelectMultiple(attrs={"class":"form-control", 'required':True}),
 			'hw_type': forms.Select(attrs={"class":"form-control", 'required':True}), #queryset=HardwareType.objects.all().order_by('name')
 			'hw_spec': forms.Textarea(attrs={'readonly':True, 'rows':8}),
+			'db_config': forms.Select(attrs={"class":"form-control", 'required':True}),
+			'dbconf_spec': forms.Textarea(attrs={'readonly':True, 'rows':8}),
 			'os_type': forms.Select(attrs={"class":"form-control", 'required':True}),
 		}
 
