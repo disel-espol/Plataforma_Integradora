@@ -9,7 +9,9 @@ class TestForm(forms.ModelForm):
 		labels = {
 			'rdbms': 'Seleccione el/los RDBMS',
 			'hw_type': 'Configuración de hardware',
+			'hw_spec': '',
 			'db_config': 'Configuración de base de datos',
+			'dbconf_spec': '',
 			'os_type': 'Sistema Operativo',
 		}
 

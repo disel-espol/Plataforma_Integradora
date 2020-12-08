@@ -20,9 +20,14 @@
 	    				<div class="custom-control custom-checkbox image-checkbox">
 	    					<input name="{{ form.rdbms.name }}" type="checkbox" class="custom-control-input" value="{{ value }}" id="id_rdbms_{{ forloop.counter0 }}">
 	    					<label class="custom-control-label" for="id_rdbms_{{ forloop.counter0 }}">
-				                <img src="{% static 'img/MariaDB.png' %}" alt="{{ value }}" class="img-fluid">
+	    						{% if text == 'MySQL' %}
+				                	<img src="{% static 'img/mysql.png' %}" alt="{{ value }}" class="img-fluid dbc">
+				                {% elif text == 'PostgreSQL' %}
+				                	<img src="{% static 'img/postgresql-logo2.png' %}" alt="{{ value }}" class="img-fluid dbc">
+				                {% else %}
+				                	<img src="{% static 'img/mariadb.png' %}" alt="{{ value }}" class="img-fluid dbc">
+	    						{% endif %}
 				            </label>
-
 							<!--<input name="{{ form.rdbms.name }}" type="checkbox" value="{{ value }}">
 							<label>{{ text }}</label>-->
 						</div>
