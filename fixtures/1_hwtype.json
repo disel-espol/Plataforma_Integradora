@@ -4,7 +4,7 @@
 		"pk":1,
 		"fields": {
 			"name":"d430",
-			"specifications":"Especificiones del d430"
+			"specifications":"CPU: Two Intel E5-2630v3 8-Core CPUs at 2.4 GHz (Haswell), RAM: 64GB ECC Memory (8x 8 GB DDR4 2133MT/s), Disk: One 200 GB 6G SATA SSD, Disk: Two 1 TB 7.2K RPM 6G SATA HDDs, NIC: Two or four Intel I350 1GbE NICs, NIC: Two or four Intel X710 10GbE NICs"
 		}
 	},
 
@@ -13,7 +13,7 @@
 		"pk":2,
 		"fields": {
 			"name":"d710",
-			"specifications":"Especificiones del d710"
+			"specifications":"CPU: One Intel Xeon E5530 4-Core CPU at 2.4 GHz (Nehalem), RAM: 12GB ECC Memory (6x 2 GB DDR2 1066MHz), Disk: One 500 GB 7.2K RPM SATA HDD, Disk: One 250 GB 7.2K RPM SATA HDD, NIC: Four Broadcom BCM5709 1GbE NICs"
 		}
 	}
 ]

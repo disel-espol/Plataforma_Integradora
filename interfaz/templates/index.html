@@ -23,7 +23,7 @@
 	    						{% if text == 'MySQL' %}
 				                	<img src="{% static 'img/mysql.png' %}" alt="{{ value }}" class="img-fluid dbc">
 				                {% elif text == 'PostgreSQL' %}
-				                	<img src="{% static 'img/postgresql-logo2.png' %}" alt="{{ value }}" class="img-fluid dbc">
+				                	<img src="{% static 'img/postgresql.png' %}" alt="{{ value }}" class="img-fluid dbc">
 				                {% else %}
 				                	<img src="{% static 'img/mariadb.png' %}" alt="{{ value }}" class="img-fluid dbc">
 	    						{% endif %}
@@ -57,9 +57,38 @@
 		<div class="col-6">
 			{{ form.os_type|as_crispy_field }}
 		</div>
-		<div class="col-6 align-items-center">
+		<div class="col-6 align-items-center" id="div_button">
 			<button type="submit" class="btn btn-info">Ejecutar</button>
 		</div>
 	</div>
 </form>
+{% block extrafooter %}
+<script type="text/javascript">
+	function getHwType(value){
+		console.log(value);
+		$.ajax({
+			url: '{% url "getHwType" %}',
+			data: {
+				'value': value
+			},
+			success: function(data){
+				$('#id_hw_spec').val(data.spec);
+			}
+		});
+	}
+
+	function getDbConfig(value){
+		console.log(value);
+		$.ajax({
+			url: '{% url "getDbSpec" %}',
+			data: {
+				'value': value
+			},
+			success: function(data){
+				$('#id_dbconf_spec').val(data.spec);
+			}
+		});
+	}
+</script>
+{% endblock extrafooter %}
 {% endblock content %}
