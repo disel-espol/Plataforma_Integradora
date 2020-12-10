@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.template import RequestContext
 from .models import Rbdms, HardwareType, OSType, Test, DbConfig
 from .forms import TestForm
-import subprocess
+from subprocess import Popen
 
 # Create your views here.
 
@@ -12,13 +12,20 @@ def index(request):
 		form = TestForm(request.POST)
 		if(form.is_valid()):
 			print("form is valid")
-			temp = form.cleaned_data.get('hw_type')
-			print(temp)
+			rdbmss = form.cleaned_data.get('rdbms')
+			rdbmsL = list(rdbmss)
+			hwT = form.cleaned_data.get('hw_type')
+			dbC = form.cleaned_data.get('db_config')
+			osT = form.cleaned_data.get('os_type')
 			"""
 			TODO:
 				Ejecutar bash script
+				arg1 = configuracion de hardware
+				arg2 = sistema operativo
+				arg3 = bases
+				arg4 = configuracion de bases
 			"""
-			#subprocess.call('/home/user/test.sh')
+			#Popen(['bash','scriptPrueba.sh',str(hwT),str(osT)])
 			return redirect('results')
 	else:
 		print("carga")
