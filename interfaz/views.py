@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, render_to_response
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.template import RequestContext
 from .models import Rbdms, HardwareType, OSType, Test, DbConfig

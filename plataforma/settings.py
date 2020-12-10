@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap4',
     'crispy_forms',
-    'interfaz.apps.InterfazConfig',
+    'interfaz',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
