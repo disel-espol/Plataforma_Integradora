@@ -25,7 +25,7 @@ def index(request):
 				arg3 = bases
 				arg4 = configuracion de bases
 			"""
-			#Popen(['bash','scriptPrueba.sh',str(hwT),str(osT)])
+			#Popen(['bash','tools/emulab/scritp.sh',str(hwT),str(osT),str(rdbmsL),str(dbC)])
 			return redirect('results')
 	else:
 		print("carga")
