@@ -7,7 +7,7 @@ passphrase=""
 # GET STATUS OF THE EXPERIMENT
 get_status(){
 	/usr/bin/expect <<-EOD
-	spawn ./experimentStatus ESPOL-sched,comp-rdbms
+	spawn /code/tools/bin/experimentStatus ESPOL-sched,comp-rdbms
 	expect "Enter PEM pass phrase:"
 	send "$passphrase\r"
 	expect eod
@@ -17,7 +17,7 @@ get_status(){
 # GET HOST OF THE NODE
 get_host(){
 	/usr/bin/expect <<-EOD
-	spawn ./experimentManifests ESPOL-sched,comp-rdbms
+	spawn /code/tools/bin/experimentManifests ESPOL-sched,comp-rdbms
 	expect "Enter PEM pass phrase:"
 	send "$passphrase\r"
 	expect eod
@@ -38,7 +38,7 @@ then
 	if [[ $2 == "Ubuntu 18.04 LTS" ]];
 	then
 		/usr/bin/expect <<-EOD
-		spawn ./startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d430
+		spawn /code/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d430
 		expect "Enter PEM pass phrase:"
 		send "$passphrase\r"
 		expect eod
@@ -60,7 +60,7 @@ then
 	if [[ $2 == "Ubuntu 18.04 LTS" ]]; 
 	then
 		/usr/bin/expect <<-EOD
-		spawn ./startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d710
+		spawn /code/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d710
 		expect "Enter PEM pass phrase:"
 		send "$passphrase\r"
 		expect eod
