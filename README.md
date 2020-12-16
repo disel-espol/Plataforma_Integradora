@@ -10,4 +10,4 @@ En el archivo **Dockerfile** debe escribir su usuario de cloudlab en la variable
 
 ## 2. Obtener credenciales de CloudLab
 
-Para descargar las credenciales de la página de CloudLab, dar clic en su nombre en la esquina superior derecha y seleccione la opción **Download Credentials**. A este archivo deberá cambiarle el nombre a **emmulab.pem** y colocarlo en la carpeta raíz de este proyecto.
+Para descargar las credenciales de la página de CloudLab, dar clic en su nombre en la esquina superior derecha y seleccione la opción **Download Credentials**. A este archivo deberá cambiarle el nombre a **emulab.pem** y colocarlo en la carpeta raíz de este proyecto.
