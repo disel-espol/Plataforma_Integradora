@@ -2,6 +2,7 @@
 #
 em_credentials='/path'
 not_ready=true
+usuario=$(printenv USER)
 passphrase=""
 #
 # GET STATUS OF THE EXPERIMENT
@@ -88,7 +89,10 @@ do
 	status=$(get_status)
 	st_final=$(echo $status | grep -o 'Status:.*' | cut -f 2 -d " ")
 	echo "Estado actual: $st_final"
-	if [[ $st_final == *"ready"* ]];
+	setup=$(get_status)
+	su_final=$(echo $setup | grep -o 'Execute.*' | cut -f 4 -d" " | cut -f 2 -d'/')
+	echo "SetUp Finished: $su_final"
+	if [[ $st_final == *"ready"* ]] && [[ $su_final == *"1"* ]];
 	then
 		echo "The experiment is ready to use!"
 		break
@@ -100,7 +104,7 @@ done
 # CONNECT VIA SSH
 host=$(get_host)
 ht_final=$(echo $host | grep -o 'hostname=.*' | cut -f 2 -d\" | cut -d'\' -f 1)
-userC=usuario@"$ht_final"
+userC="$usuario"@"$ht_final"
 echo "$userC"
 #ssh -p 22 $userC
 # TODO:
