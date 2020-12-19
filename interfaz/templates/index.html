@@ -7,6 +7,7 @@
 {% endblock extraheader %}
 
 {% block content %}
+{% include 'alert.html' %}
 <form method='POST' id='testForm' novalidate>
 	{% csrf_token %}
 	<div class="row">

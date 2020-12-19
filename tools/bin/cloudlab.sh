@@ -1,16 +1,16 @@
 #!/bin/bash
 #
-em_credentials='/path'
 not_ready=true
 usuario=$(printenv USER)
-passphrase=""
+passCred="" #Passphrase for the credentials downloaded from CloudLab
+passKey="" #Passphrase for the key used to connect through ssh
 #
 # GET STATUS OF THE EXPERIMENT
 get_status(){
 	/usr/bin/expect <<-EOD
 	spawn /code/tools/bin/experimentStatus ESPOL-sched,comp-rdbms
 	expect "Enter PEM pass phrase:"
-	send "$passphrase\r"
+	send "$passCred\r"
 	expect eod
 	EOD
 }
@@ -20,18 +20,12 @@ get_host(){
 	/usr/bin/expect <<-EOD
 	spawn /code/tools/bin/experimentManifests ESPOL-sched,comp-rdbms
 	expect "Enter PEM pass phrase:"
-	send "$passphrase\r"
+	send "$passCred\r"
 	expect eod
 	EOD
 }
 #
-# COPY EMULAB CREDENTIALS IN THE SSL DIRECTORY
-#mkdir .ssl
-#chmod 700 .ssl
-#scp $em_credentials/\'cloudlab.pem\' .ssl/emulab.epm
-#
 # START AN EXPERIMENT IN CLOUDLABD
-# $1 representa el primer argumento con el que se ejecuta el script, se espera qe sea el tipo de maquina 
 # TODO:
 #   falta crear los profiles en cloudlab
 if [[ $1 == "d430" ]];
@@ -41,7 +35,7 @@ then
 		/usr/bin/expect <<-EOD
 		spawn /code/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d430
 		expect "Enter PEM pass phrase:"
-		send "$passphrase\r"
+		send "$passCred\r"
 		expect eod
 		EOD
 	elif [[ $2 == "Ubuntu 16.04 LTS" ]]; 
@@ -63,7 +57,7 @@ then
 		/usr/bin/expect <<-EOD
 		spawn /code/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d710
 		expect "Enter PEM pass phrase:"
-		send "$passphrase\r"
+		send "$passCred\r"
 		expect eod
 		EOD
 	elif [[ $2 == "Ubuntu 16.04 LTS" ]]; 
@@ -106,6 +100,27 @@ host=$(get_host)
 ht_final=$(echo $host | grep -o 'hostname=.*' | cut -f 2 -d\" | cut -d'\' -f 1)
 userC="$usuario"@"$ht_final"
 echo "$userC"
-#ssh -p 22 $userC
-# TODO:
-	#   Al crear experimento se debe ingresar una clave, preguntar como enviar esa contraseña por cli
+/usr/bin/expect <<-EOD
+spawn ssh -p 22 $userC
+expect {
+	"Are you sure you want to continue connecting*" {
+		send "yes\r"
+	}
+	"Enter passphrase for key*" {
+		send "$passKey\r"
+	}
+}
+expect {
+	"Enter passphrase for key*" {
+		send "$passKey\r"
+	}
+	"*>" {
+		set timeout -1
+	}
+}
+send "git clone https://github.com/Percona-Lab/sysbench-tpcc.git\r"
+expect "*>"
+send "cd sysbench-tpcc/\r"
+expect "*>"
+send "exit\r"
+EOD

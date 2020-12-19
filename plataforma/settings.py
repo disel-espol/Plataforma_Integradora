@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from django.contrib.messages import constants as message_constants
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -74,6 +75,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'plataforma.wsgi.application'
 
+MESSAGE_LEVEL = message_constants.DEBUG
+
+MESSAGE_TAGS = {
+    message_constants.DEBUG: 'alert-info',
+    message_constants.INFO: 'alert-info',
+    message_constants.SUCCESS: 'alert-success',
+    message_constants.WARNING: 'alert-warning',
+    message_constants.ERROR: 'alert-danger',
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
