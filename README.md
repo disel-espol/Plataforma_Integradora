@@ -12,8 +12,8 @@ En el archivo **Dockerfile** debe escribir su usuario de cloudlab en la variable
 ## 2. Cambio de contraseñas
 
 En el archivo **tools/bin/cloudlab.sh** debe escribir sus contraseñas.
-- **passCred**: Aquí va la constraseña de su cuenta de Cloudlab, esta es usada por las credenciales descritas en el punto 3.
-- **passKey**: Aquí va la contraseña que usó al sacar el key para conectarse via ssh con los nodos de CloudLab.
+- **passCred(línea 5)**: Aquí va la constraseña de su cuenta de Cloudlab, esta es usada por las credenciales descritas en el punto 3.
+- **passKey(línea 6)**: Aquí va la contraseña que usó al sacar el key para conectarse via ssh con los nodos de CloudLab.
 
 ## 3. Obtener credenciales de CloudLab
 
