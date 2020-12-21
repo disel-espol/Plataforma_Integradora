@@ -83,7 +83,7 @@ do
 	status=$(get_status)
 	st_final=$(echo $status | grep -o 'Status:.*' | cut -f 2 -d " ")
 	echo "Estado actual: $st_final"
-	setup=$(get_status)
+	#setup=$(get_status)
 	su_final=$(echo $setup | grep -o 'Execute.*' | cut -f 4 -d" " | cut -f 2 -d'/')
 	echo "SetUp Finished: $su_final"
 	if [[ $st_final == *"ready"* ]] && [[ $su_final == *"1"* ]];
@@ -118,9 +118,13 @@ expect {
 		set timeout -1
 	}
 }
-send "git clone https://github.com/Percona-Lab/sysbench-tpcc.git\r"
-expect "*>"
-send "cd sysbench-tpcc/\r"
-expect "*>"
-send "exit\r"
+if { {$4} == {MySQL} } {
+	puts "MySQL"
+}
+if { {$4} == {PostgreSQL} || {$5} == {PostgreSQL} } {
+	puts "PostgreSQL"
+}
+if { {$4} == {MariaDB} || {$5} == {MariaDB} || {$6} == {MariaDB} } {
+	puts "MariaDB"
+}
 EOD
