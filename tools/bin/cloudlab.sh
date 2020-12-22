@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+
 not_ready=true
 usuario=$(printenv USER)
 passCred="" #Passphrase for the credentials downloaded from CloudLab
@@ -14,7 +14,7 @@ get_status(){
 	expect eod
 	EOD
 }
-#
+
 # GET HOST OF THE NODE
 get_host(){
 	/usr/bin/expect <<-EOD
@@ -24,7 +24,7 @@ get_host(){
 	expect eod
 	EOD
 }
-#
+
 # START AN EXPERIMENT IN CLOUDLABD
 # TODO:
 #   falta crear los profiles en cloudlab
@@ -33,7 +33,7 @@ then
 	if [[ $2 == "Ubuntu 18.04 LTS" ]];
 	then
 		/usr/bin/expect <<-EOD
-		spawn /code/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d430
+		spawn /code/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc3-d430
 		expect "Enter PEM pass phrase:"
 		send "$passCred\r"
 		expect eod
@@ -76,7 +76,7 @@ else
 	echo "The profile does not exists"
 	exit
 fi
-#
+
 # CHECK IF THE EXPERIMENT IS READY  
 while [ $not_ready ]
 do
@@ -94,7 +94,7 @@ do
 	echo "Sleep por 30s"
 	sleep 30
 done
-#
+
 # CONNECT VIA SSH
 host=$(get_host)
 ht_final=$(echo $host | grep -o 'hostname=.*' | cut -f 2 -d\" | cut -d'\' -f 1)
@@ -122,7 +122,26 @@ if { {$4} == {MySQL} } {
 	puts "MySQL"
 }
 if { {$4} == {PostgreSQL} || {$5} == {PostgreSQL} } {
-	puts "PostgreSQL"
+	send "sudo su - postgres\r"
+	expect "*$"
+	send "psql\r"
+	expect "*#"
+	send "ALTER USER postgres PASSWORD '12345';\r"
+	expect "*#"
+	send "create database sbtest;\r"
+	expect "*#"
+	send "exit\r"
+	expect "*$"
+	send "exit\r"
+	expect "*>"
+	send "cd sysbench-tpcc\r"
+	expect "*>"
+	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=sbtest --time=120 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql prepare\r"
+	expect "*>"
+	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=sbtest --time=120 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql run\r"
+	expect "*>"
+	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=sbtest --time=120 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql cleanup\r"
+	expect "*>"
 }
 if { {$4} == {MariaDB} || {$5} == {MariaDB} || {$6} == {MariaDB} } {
 	puts "MariaDB"
