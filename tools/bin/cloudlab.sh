@@ -123,7 +123,7 @@ if { {$4} == {MySQL} } {
 }
 if { {$4} == {PostgreSQL} || {$5} == {PostgreSQL} } {
 	send "sudo su - postgres\r"
-	expect "*$"
+	expect "*$ "
 	send "psql\r"
 	expect "*#"
 	send "ALTER USER postgres PASSWORD '12345';\r"
@@ -131,7 +131,7 @@ if { {$4} == {PostgreSQL} || {$5} == {PostgreSQL} } {
 	send "create database sbtest;\r"
 	expect "*#"
 	send "exit\r"
-	expect "*$"
+	expect "*$ "
 	send "exit\r"
 	expect "*>"
 	send "cd sysbench-tpcc\r"
