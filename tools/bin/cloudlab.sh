@@ -119,7 +119,22 @@ expect {
 	}
 }
 if { {$4} == {MySQL} } {
-	puts "MySQL"
+	send "~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"CREATE DATABASE sbt;\"\r"
+	expect "*>"
+	send "~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"CREATE USER 'pmm'@'localhost' IDENTIFIED BY '12345';\"\r"
+	expect "*>"
+	send "~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"GRANT ALL PRIVILEGES ON *.* TO 'pmm'@'localhost' WITH GRANT OPTION;\"\r"
+	expect "*>"
+	send "~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"FLUSH PRIVILEGES;\"\r"
+	expect "*>"
+	send "cd sysbench-tpcc\r"
+	expect "*>"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=sbt --threads=64 --tables=2 --scale=10 prepare\r"
+	expect "*>"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=sbt --threads=64 --tables=2 --scale=10 --time=240 --report-interval=1 run\r"
+	expect "*>"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=sbt --threads=64 --tables=2 --scale=10 --time=240 --report-interval=1 cleanup\r"
+	expect "*>"
 }
 if { {$4} == {PostgreSQL} || {$5} == {PostgreSQL} } {
 	send "sudo -u postgres psql -c \"ALTER USER postgres PASSWORD '12345';\"\r"
@@ -128,14 +143,29 @@ if { {$4} == {PostgreSQL} || {$5} == {PostgreSQL} } {
 	expect "*>"
 	send "cd sysbench-tpcc\r"
 	expect "*>"
-	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=sbtest --time=120 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql prepare\r"
+	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=sbtest --time=240 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql prepare\r"
 	expect "*>"
-	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=sbtest --time=120 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql run\r"
+	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=sbtest --time=240 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql run\r"
 	expect "*>"
-	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=sbtest --time=120 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql cleanup\r"
+	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=sbtest --time=240 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql cleanup\r"
 	expect "*>"
 }
 if { {$4} == {MariaDB} || {$5} == {MariaDB} || {$6} == {MariaDB} } {
-	puts "MariaDB"
+	send "~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"CREATE DATABASE sbt1;\"\r"
+	expect "*>"
+	send "~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"CREATE USER 'pmm2'@'localhost' IDENTIFIED BY '12345';\"\r"
+	expect "*>"
+	send "~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"GRANT ALL PRIVILEGES ON *.* TO 'pmm2'@'localhost' WITH GRANT OPTION;\"\r"
+	expect "*>"
+	send "~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"FLUSH PRIVILEGES;\"\r"
+	expect "*>"
+	send "cd sysbench-tpcc\r"
+	expect "*>"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox10508.sock --mysql-user=root --mysql-password=msandbox --mysql-db=sbt1 --threads=64 --tables=2 --scale=10 prepare\r"
+	expect "*>"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox10508.sock --mysql-user=root --mysql-password=msandbox --mysql-db=sbt1 --threads=64 --tables=2 --scale=10 --time=240 --report-interval=1 run\r"
+	expect "*>"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox10508.sock --mysql-user=root --mysql-password=msandbox --mysql-db=sbt1 --threads=64 --tables=2 --scale=10 --time=240 --report-interval=1 cleanup\r"
+	expect "*>"
 }
 EOD
