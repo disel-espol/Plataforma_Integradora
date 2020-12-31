@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load fontawesome_5 %}
+
+{% block extraheader %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/progress.css' %}">
+{% endblock extraheader %}
+
+{% block content %}
+<div class="col-12">
+	<h3>Creación de experimento</h3>
+	<div class="spinner-border text-light" role="status" id="experiment">
+  		<span class="visually-hidden"> </span>
+	</div>
+	<div class="row"><p>Experimento Listo</p><i class="fas fa-check"></i></div>
+</div>
+<br><br>
+<div class="col-12">
+	<h3>Pruebas de rendimiento</h3>
+	<div class="row">
+		<div class="col-4">
+			{% if db1 == "MySQL" %}<h4>MySQL</h4>{% endif %}
+			{% if db1 == "PostgreSQL" %}<h4>PostgreSQL</h4>{% endif %}
+			{% if db1 == "MariaDB" %}<h4>MariaDB</h4>{% endif %}
+			<div class="spinner-border text-light" role="status" id="db1">
+  				<span class="visually-hidden"> </span>
+			</div>
+		</div>
+		{% if db2 != "" %}
+		<div class="col-4">
+			{% if db2 == "PostgreSQL" %}<h4>PostgreSQL</h4>{% endif %}
+			{% if db2 == "MariaDB" %}<h4>MariaDB</h4>{% endif %}
+			<div class="spinner-border text-light" role="status" id="db2">
+  				<span class="visually-hidden"> </span>
+			</div>
+		</div>
+		{% endif %}
+		{% if db3 != "" %}
+		<div class="col-4">
+			<h4>MariaDB</h4>
+			<div class="spinner-border text-light" role="status" id="db3">
+  				<span class="visually-hidden"> </span>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+</div>
+<br><br>
+<div class="col-12 align-items-center" id="div_button">
+	<a class="btn btn-secondary" href="{% url 'index' %}">Atrás</a>
+	<a class="btn btn-info ml-2" href="{% url 'results' %}"> Ver resultados</a>
+</div>
+{% endblock content %}
+{% block extrafooter %}
+<script type="text/javascript">
+	/*function readFile(){
+		var fl = new File([], "../code/output.txt");
+		if (!fl) {
+    		return;
+  		}
+		const reader = new FileReader();
+		reader.onload = (event) => {
+		    const file = event.target.result;
+		    const allLines = file.split(/\r\n|\n/);
+		    // Reading line by line
+		    allLines.map((line) => {
+		        console.log(line);
+		    });
+		};
+		reader.onerror = (evt) => {
+		    alert(evt.target.error.name);
+		};
+		reader.readAsText(fl);
+	}*/
+	function readFile(){
+		$.ajax({
+			url: '{% url "readFile" %}',
+			success: function(data){
+				console.log(data.line);
+				ch = data.line.split(":");
+				console.log(ch[1]);
+			}
+		});
+	}
+	$(document).ready(function(){
+		setInterval(readFile, 32000);
+	});
+</script>
+{% endblock extrafooter %}

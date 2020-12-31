@@ -2,6 +2,7 @@
 
 not_ready=true
 usuario=$(printenv USER)
+workdir=$(printenv PWD)
 passCred="" #Passphrase for the credentials downloaded from CloudLab
 passKey="" #Passphrase for the key used to connect through ssh
 #
@@ -82,10 +83,10 @@ while [ $not_ready ]
 do
 	status=$(get_status)
 	st_final=$(echo "$status" | grep -o 'Status:.*' | cut -f 2 -d " ")
-	echo "Estado actual: $st_final"
+	echo "Estado actual: $st_final" &>> $workdir/output.txt
 	#setup=$(get_status)
 	su_final=$(echo "$status" | grep -o 'Execute.*' | cut -f 4 -d" " | cut -f 2 -d'/')
-	echo "SetUp Finished: $su_final"
+	echo "SetUp Finished: $su_final" &>> $workdir/output.txt
 	if [[ $st_final == *"ready"* ]] && [[ $su_final == *"1"* ]];
 	then
 		echo "The experiment is ready to use!"

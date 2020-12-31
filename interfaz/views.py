@@ -5,6 +5,8 @@ from django.contrib import messages
 from .models import Rbdms, HardwareType, OSType, Test, DbConfig
 from .forms import TestForm
 from subprocess import Popen, getoutput
+from django.conf import settings
+import os
 
 # Create your views here.
 
@@ -21,20 +23,34 @@ def index(request):
 			if(len(dbs) == 2):
 				db3 = dbs[1]
 			hwT = form.cleaned_data.get('hw_type')
-			dbC = form.cleaned_data.get('db_config')
-			osT = form.cleaned_data.get('os_type')
 			command = "curl -s -k https://emulab.net/portal/frontpage.php | grep "+str(hwT)+" -C 2 | tail -1 | sed 's/>/</g' | cut -d'<' -f3"
 			avail = getoutput(command)
 			if(int(avail)==0):
 				print("No hay maquinas disponibles")
 				messages.error(request, 'No hay maquinas %s disponibles' %str(hwT))
 				return render(request, 'index.html', {'form':form})
-			Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(dbC),str(db1),str(db2),str(db3)])
-			return redirect('results')
+			#Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(dbC),str(db1),str(db2),str(db3)])
+			request.session['db1'] = str(db1)
+			request.session['db2'] = str(db2)
+			request.session['db3'] = str(db3)
+			request.session['hwT'] = str(hwT)
+			request.session['dbC'] = str(form.cleaned_data.get('db_config'))
+			request.session['osT'] = str(form.cleaned_data.get('os_type'))
+			return redirect('progress')
 	else:
 		print("carga")
 		form = TestForm()
 	return render(request, 'index.html', {'form':form})
+
+def progress(request):
+	db1 = request.session['db1']
+	db2 = request.session['db2']
+	db3 = request.session['db3']
+	hwT = request.session['hwT']
+	dbC = request.session['dbC']
+	osT = request.session['osT']
+	Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(dbC),str(db1),str(db2),str(db3)])
+	return render(request, 'progress.html', {'db1':db1, 'db2':db2, 'db3':db3})
 
 def results(request):
 	return render(request, 'results.html')
@@ -48,3 +64,17 @@ def get_dbSpec(request):
 	pk = request.GET.get('value')
 	spec = DbConfig.objects.get(pk=pk).specifications
 	return JsonResponse({'spec':spec})
+
+def file_len(fname):
+	with open(fname) as f:
+		for i, l in enumerate(f):
+			pass
+	return i + 1
+
+def readFile(request):
+	path = os.path.join(settings.BASE_DIR, 'output.txt')
+	#nliness = file_len(path)
+	f = open(path)
+	lines = f.readlines()
+	line = lines[-1]
+	return JsonResponse({'line':line})
