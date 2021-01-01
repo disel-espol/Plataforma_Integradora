@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% load fontawesome_5 %}
 
 {% block extraheader %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/progress.css' %}">
 {% endblock extraheader %}
 
 {% block content %}
 <div class="col-12">
 	<h3>Creación de experimento</h3>
-	<div class="spinner-border text-light" role="status" id="experiment">
+	<div class="spinner-border text-light" role="status" id="experimentLoad">
   		<span class="visually-hidden"> </span>
 	</div>
-	<div class="row"><p>Experimento Listo</p><i class="fas fa-check"></i></div>
+	<div class="row d-none" id="experimentReady">
+		<p>Experimento Listo</p><i class="fas fa-check"></i>
+	</div>
 </div>
 <br><br>
 <div class="col-12">
@@ -49,7 +49,7 @@
 <br><br>
 <div class="col-12 align-items-center" id="div_button">
 	<a class="btn btn-secondary" href="{% url 'index' %}">Atrás</a>
-	<a class="btn btn-info ml-2" href="{% url 'results' %}"> Ver resultados</a>
+	<a class="btn btn-info ml-2 disabled" href="{% url 'results' %}"> Ver resultados</a>
 </div>
 {% endblock content %}
 {% block extrafooter %}
@@ -80,6 +80,10 @@
 				console.log(data.line);
 				ch = data.line.split(":");
 				console.log(ch[1]);
+				if(ch[1].trim() === "1"){
+					$("div#experimentLoad").addClass("d-none");
+					$("div#experimentReady").removeClass("d-none");
+				}
 			}
 		});
 	}

@@ -23,19 +23,21 @@ def index(request):
 			if(len(dbs) == 2):
 				db3 = dbs[1]
 			hwT = form.cleaned_data.get('hw_type')
+			osT = form.cleaned_data.get('os_type')
+			dbC = form.cleaned_data.get('db_config')
 			command = "curl -s -k https://emulab.net/portal/frontpage.php | grep "+str(hwT)+" -C 2 | tail -1 | sed 's/>/</g' | cut -d'<' -f3"
 			avail = getoutput(command)
 			if(int(avail)==0):
 				print("No hay maquinas disponibles")
 				messages.error(request, 'No hay maquinas %s disponibles' %str(hwT))
 				return render(request, 'index.html', {'form':form})
-			#Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(dbC),str(db1),str(db2),str(db3)])
+			Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(dbC),str(db1),str(db2),str(db3)])
 			request.session['db1'] = str(db1)
 			request.session['db2'] = str(db2)
 			request.session['db3'] = str(db3)
 			request.session['hwT'] = str(hwT)
-			request.session['dbC'] = str(form.cleaned_data.get('db_config'))
-			request.session['osT'] = str(form.cleaned_data.get('os_type'))
+			request.session['dbC'] = str(dbC)
+			request.session['osT'] = str(osT)
 			return redirect('progress')
 	else:
 		print("carga")
@@ -46,10 +48,10 @@ def progress(request):
 	db1 = request.session['db1']
 	db2 = request.session['db2']
 	db3 = request.session['db3']
-	hwT = request.session['hwT']
-	dbC = request.session['dbC']
-	osT = request.session['osT']
-	Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(dbC),str(db1),str(db2),str(db3)])
+	#hwT = request.session['hwT']
+	#dbC = request.session['dbC']
+	#osT = request.session['osT']
+	#Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(dbC),str(db1),str(db2),str(db3)])
 	return render(request, 'progress.html', {'db1':db1, 'db2':db2, 'db3':db3})
 
 def results(request):
