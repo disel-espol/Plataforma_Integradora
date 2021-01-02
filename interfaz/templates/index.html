@@ -39,6 +39,16 @@
 		</div>
 	</div>
 	<div class="row">
+		<div class="col-sm-6 col-12">
+			{{ form.hw_type|as_crispy_field }}
+			{{ form.hw_spec|as_crispy_field }}
+		</div>
+		<div class="col-sm-6 col-12">
+			{{ form.db_config|as_crispy_field }}
+			{{ form.dbconf_spec|as_crispy_field }}
+		</div>
+	</div>
+	<!--<div class="row">
 		<div class="col-6">
 			{{ form.hw_type|as_crispy_field }}
 		</div>
@@ -53,16 +63,17 @@
 		<div class="col-6">
 			{{ form.dbconf_spec|as_crispy_field }}
 		</div>
-	</div>
+	</div>-->
 	<div class="row">
-		<div class="col-6">
+		<div class="col-sm-6 col-12">
 			{{ form.os_type|as_crispy_field }}
 		</div>
-		<div class="col-6 align-items-center" id="div_button">
+		<div class="col-sm-6 col-12 align-items-center" id="div_button">
 			<button type="submit" class="btn btn-info">Ejecutar</button>
 		</div>
 	</div>
 </form>
+<br>
 {% block extrafooter %}
 <script type="text/javascript">
 	function getHwType(value){

@@ -231,3 +231,7 @@ pip-selfcheck.json
 **/migrations/**
 !**/migrations
 !**/migrations/__init__.py
+
+.ssh/
+emulab.pem
+output.txt
