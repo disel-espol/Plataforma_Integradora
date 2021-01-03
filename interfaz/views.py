@@ -18,10 +18,13 @@ def index(request):
 			rdbmss = form.cleaned_data.get('rdbms')
 			db1, *dbs = list(rdbmss)
 			db2, db3 = '', ''
+			dbCount = 1
 			if(len(dbs) >= 1):
 				db2 = dbs[0]
+				dbCount+=1
 			if(len(dbs) == 2):
 				db3 = dbs[1]
+				dbCount+=1
 			hwT = form.cleaned_data.get('hw_type')
 			osT = form.cleaned_data.get('os_type')
 			dbC = form.cleaned_data.get('db_config')
@@ -38,6 +41,7 @@ def index(request):
 			request.session['hwT'] = str(hwT)
 			request.session['dbC'] = str(dbC)
 			request.session['osT'] = str(osT)
+			request.session['dbCount'] = dbCount
 			return redirect('progress')
 	else:
 		print("carga")
@@ -79,4 +83,5 @@ def readFile(request):
 	f = open(path)
 	lines = f.readlines()
 	line = lines[-1]
-	return JsonResponse({'line':line})
+	dbCount = request.session['dbCount']
+	return JsonResponse({'line':line, 'dbCount':dbCount})

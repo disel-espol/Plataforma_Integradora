@@ -149,6 +149,7 @@ then
 	if [[ $4 == "PostgreSQL" ]];
 	then
 		base2="db1"
+	fi
 	echo "Empezando pruebas con: $base2" &>> $workdir/output.txt
 	/usr/bin/expect <<-EOD
 	spawn ssh -p 22 $userC
@@ -193,6 +194,7 @@ then
 	elif [[ $5 == "MariaDB" ]]; 
 	then
 		base3="db2"
+	fi
 	echo "Empezando pruebas con: $base3" &>> $workdir/output.txt
 	/usr/bin/expect <<-EOD
 	spawn ssh -p 22 $userC

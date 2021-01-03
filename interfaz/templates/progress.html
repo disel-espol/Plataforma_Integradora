@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block extraheader %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/progress.css' %}">
 {% endblock extraheader %}
 
 {% block content %}
@@ -11,8 +12,11 @@
 	<div class="spinner-border text-light" role="status" id="experimentLoad">
 		<span class="visually-hidden"> </span>
 	</div>
-	<div class="row d-none" id="experimentReady">
-		<p>Experimento Listo</p><i class="fas fa-check"></i>
+	<div class="row align-items-center d-none" id="experimentStart">
+		<span class="mr-2">Iniciando máquina</span><div class="spinner-grow spinner-grow-sm text-light" role="status"></div>
+	</div>
+	<div class="row align-items-center d-none" id="experimentReady">
+		<span class="mr-2">Experimento Listo</span><i class="fas fa-check"></i>
 	</div>
 </div>
 <br><br>
@@ -26,11 +30,11 @@
 			<div class="spinner-border text-light" role="status" id="db1Load">
   				<span class="visually-hidden"> </span>
 			</div>
-			<div class="row d-none" id="db1Start">
-				<p>Empezando pruebas</p><i class="fas fa-spinner"></i>
+			<div class="row align-items-center d-none" id="db1Start">
+				<span class="mr-2">Empezando pruebas</span><div class="spinner-grow spinner-grow-sm text-light" role="status"></div>
 			</div>
-			<div class="row d-none" id="db1Ready">
-				<p>Pruebas terminadas</p><i class="fas fa-check"></i>
+			<div class="row align-items-center d-none" id="db1Ready">
+				<span class="mr-2">Pruebas terminadas</span><i class="fas fa-check"></i>
 			</div>
 		</div>
 		{% if db2 != "" %}
@@ -40,11 +44,11 @@
 			<div class="spinner-border text-light" role="status" id="db2Load">
   				<span class="visually-hidden"> </span>
 			</div>
-			<div class="row d-none" id="db2Start">
-				<p>Empezando pruebas</p><i class="fas fa-spinner"></i>
+			<div class="row align-items-center d-none" id="db2Start">
+				<span class="mr-2">Empezando pruebas</span><div class="spinner-grow spinner-grow-sm text-light" role="status"></div>
 			</div>
-			<div class="row d-none" id="db2Ready">
-				<p>Pruebas terminadas</p><i class="fas fa-check"></i>
+			<div class="row align-items-center d-none" id="db2Ready">
+				<span class="mr-2">Pruebas terminadas</span><i class="fas fa-check"></i>
 			</div>
 		</div>
 		{% endif %}
@@ -54,11 +58,11 @@
 			<div class="spinner-border text-light" role="status" id="db3Load">
   				<span class="visually-hidden"> </span>
 			</div>
-			<div class="row d-none" id="db3Start">
-				<p>Empezando pruebas</p><i class="fas fa-spinner"></i>
+			<div class="row align-items-center d-none" id="db3Start">
+				<span class="mr-2">Empezando pruebas</span><div class="spinner-border spinner-border-sm text-light" role="status"></div>
 			</div>
-			<div class="row d-none" id="db3Ready">
-				<p>Pruebas terminadas</p><i class="fas fa-check"></i>
+			<div class="row align-items-center d-none" id="db3Ready">
+				<span class="mr-2">Pruebas terminadas</span><i class="fas fa-check"></i>
 			</div>
 		</div>
 		{% endif %}
@@ -77,35 +81,37 @@
 			url: '{% url "readFile" %}',
 			success: function(data){
 				console.log(data.line);
+				console.log("Bases:"+data.dbCount);
 				if(data.line.match("^SetUp")){
 					ch = data.line.split(":");
 					console.log(ch[1]);
-					if(ch[1].trim() === "1"){
+					if(ch[1].trim() === "0"){
 						$("div#experimentLoad").addClass("d-none");
+						$("div#experimentStart").removeClass("d-none");
+					}
+					if(ch[1].trim() === "1"){
+						$("div#experimentStart").addClass("d-none");
 						$("div#experimentReady").removeClass("d-none");
 					}
 				}
 				if(data.line.match("^Empezando")){
 					ch = data.line.split(":");
-					console.log(ch[1]);
 					dbS = ch[1].split("b");
-					console.log(dbS[1]);
-					dbLoad = "db"+dbS[1]+"Load"
-					dbStart = "db"+dbS[1]+"Start";
+					dbLoad = "#db"+dbS[1].trim()+"Load"
+					dbStart = "#db"+dbS[1].trim()+"Start";
 					$(dbLoad).addClass("d-none");
 					$(dbStart).removeClass("d-none");
 					countDB++;
 				}
 				if(data.line.match("^Terminaron")){
 					ch = data.line.split(":");
-					console.log(ch[1]);
 					dbF = ch[1].split("b");
-					console.log(dbF[1]);
-					dbStartF = "db"+dbF[1]+"Start"
-					dbReady = "db"+dbF[1]+"Ready";
+					dbStartF = "#db"+dbF[1].trim()+"Start"
+					dbReady = "#db"+dbF[1].trim()+"Ready";
 					$(dbStartF).addClass("d-none");
 					$(dbReady).removeClass("d-none");
-					if(totalDB === countDB){
+					if(data.dbCount == countDB){
+						console.log("Entra");
 						$("#resultsBt").removeClass("disabled");
 					}
 				}
@@ -113,10 +119,9 @@
 		});
 	}
 	$(document).ready(function(){
-		//TODO: Obtener valor real de totalDB
-		totalDB = 3;
+		//TODO: Acceso a countDB
 		countDB = 0;
-		setInterval(readFile, 32000);
+		setInterval(readFile, 10000);
 	});
 </script>
 {% endblock extrafooter %}
