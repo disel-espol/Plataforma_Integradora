@@ -9,7 +9,7 @@
 <div class="col-12">
 	<h3>Creación de experimento</h3>
 	<div class="spinner-border text-light" role="status" id="experimentLoad">
-  		<span class="visually-hidden"> </span>
+		<span class="visually-hidden"> </span>
 	</div>
 	<div class="row d-none" id="experimentReady">
 		<p>Experimento Listo</p><i class="fas fa-check"></i>
@@ -23,24 +23,42 @@
 			{% if db1 == "MySQL" %}<h4>MySQL</h4>{% endif %}
 			{% if db1 == "PostgreSQL" %}<h4>PostgreSQL</h4>{% endif %}
 			{% if db1 == "MariaDB" %}<h4>MariaDB</h4>{% endif %}
-			<div class="spinner-border text-light" role="status" id="db1">
+			<div class="spinner-border text-light" role="status" id="db1Load">
   				<span class="visually-hidden"> </span>
+			</div>
+			<div class="row d-none" id="db1Start">
+				<p>Empezando pruebas</p><i class="fas fa-spinner"></i>
+			</div>
+			<div class="row d-none" id="db1Ready">
+				<p>Pruebas terminadas</p><i class="fas fa-check"></i>
 			</div>
 		</div>
 		{% if db2 != "" %}
 		<div class="col-4">
 			{% if db2 == "PostgreSQL" %}<h4>PostgreSQL</h4>{% endif %}
 			{% if db2 == "MariaDB" %}<h4>MariaDB</h4>{% endif %}
-			<div class="spinner-border text-light" role="status" id="db2">
+			<div class="spinner-border text-light" role="status" id="db2Load">
   				<span class="visually-hidden"> </span>
+			</div>
+			<div class="row d-none" id="db2Start">
+				<p>Empezando pruebas</p><i class="fas fa-spinner"></i>
+			</div>
+			<div class="row d-none" id="db2Ready">
+				<p>Pruebas terminadas</p><i class="fas fa-check"></i>
 			</div>
 		</div>
 		{% endif %}
 		{% if db3 != "" %}
 		<div class="col-4">
 			<h4>MariaDB</h4>
-			<div class="spinner-border text-light" role="status" id="db3">
+			<div class="spinner-border text-light" role="status" id="db3Load">
   				<span class="visually-hidden"> </span>
+			</div>
+			<div class="row d-none" id="db3Start">
+				<p>Empezando pruebas</p><i class="fas fa-spinner"></i>
+			</div>
+			<div class="row d-none" id="db3Ready">
+				<p>Pruebas terminadas</p><i class="fas fa-check"></i>
 			</div>
 		</div>
 		{% endif %}
@@ -49,45 +67,55 @@
 <br><br>
 <div class="col-12 align-items-center" id="div_button">
 	<a class="btn btn-secondary" href="{% url 'index' %}">Atrás</a>
-	<a class="btn btn-info ml-2 disabled" href="{% url 'results' %}"> Ver resultados</a>
+	<a class="btn btn-info ml-2 disabled" href="{% url 'results' %}" id="resultsBt"> Ver resultados</a>
 </div>
 {% endblock content %}
 {% block extrafooter %}
 <script type="text/javascript">
-	/*function readFile(){
-		var fl = new File([], "../code/output.txt");
-		if (!fl) {
-    		return;
-  		}
-		const reader = new FileReader();
-		reader.onload = (event) => {
-		    const file = event.target.result;
-		    const allLines = file.split(/\r\n|\n/);
-		    // Reading line by line
-		    allLines.map((line) => {
-		        console.log(line);
-		    });
-		};
-		reader.onerror = (evt) => {
-		    alert(evt.target.error.name);
-		};
-		reader.readAsText(fl);
-	}*/
 	function readFile(){
 		$.ajax({
 			url: '{% url "readFile" %}',
 			success: function(data){
 				console.log(data.line);
-				ch = data.line.split(":");
-				console.log(ch[1]);
-				if(ch[1].trim() === "1"){
-					$("div#experimentLoad").addClass("d-none");
-					$("div#experimentReady").removeClass("d-none");
+				if(data.line.match("^SetUp")){
+					ch = data.line.split(":");
+					console.log(ch[1]);
+					if(ch[1].trim() === "1"){
+						$("div#experimentLoad").addClass("d-none");
+						$("div#experimentReady").removeClass("d-none");
+					}
+				}
+				if(data.line.match("^Empezando")){
+					ch = data.line.split(":");
+					console.log(ch[1]);
+					dbS = ch[1].split("b");
+					console.log(dbS[1]);
+					dbLoad = "db"+dbS[1]+"Load"
+					dbStart = "db"+dbS[1]+"Start";
+					$(dbLoad).addClass("d-none");
+					$(dbStart).removeClass("d-none");
+					countDB++;
+				}
+				if(data.line.match("^Terminaron")){
+					ch = data.line.split(":");
+					console.log(ch[1]);
+					dbF = ch[1].split("b");
+					console.log(dbF[1]);
+					dbStartF = "db"+dbF[1]+"Start"
+					dbReady = "db"+dbF[1]+"Ready";
+					$(dbStartF).addClass("d-none");
+					$(dbReady).removeClass("d-none");
+					if(totalDB === countDB){
+						$("#resultsBt").removeClass("disabled");
+					}
 				}
 			}
 		});
 	}
 	$(document).ready(function(){
+		//TODO: Obtener valor real de totalDB
+		totalDB = 3;
+		countDB = 0;
 		setInterval(readFile, 32000);
 	});
 </script>
