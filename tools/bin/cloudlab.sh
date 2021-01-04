@@ -142,6 +142,7 @@ then
 	send "exit\r"
 	EOD
 	echo "Terminaron pruebas con: db1" &>> $workdir/output.txt
+	sleep 35
 fi
 if [[ $4 == "PostgreSQL" || $5 == "PostgreSQL" ]];
 then
@@ -184,6 +185,7 @@ then
 	send "exit\r"
 	EOD
 	echo "Terminaron pruebas con: $base2" &>> $workdir/output.txt
+	sleep 35
 fi
 if [[ $4 == "MariaDB" || $5 == "MariaDB" || $6 == "MariaDB" ]];
 then
