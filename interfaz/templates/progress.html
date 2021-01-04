@@ -83,7 +83,7 @@
 				console.log(data.line);
 				console.log("Bases:"+data.dbCount);
 				if(data.line.match("^SetUp")){
-					ch = data.line.split(":");
+					var ch = data.line.split(":");
 					console.log(ch[1]);
 					if(ch[1].trim() === "0"){
 						$("div#experimentLoad").addClass("d-none");
@@ -95,22 +95,26 @@
 					}
 				}
 				if(data.line.match("^Empezando")){
-					ch = data.line.split(":");
-					dbS = ch[1].split("b");
-					dbLoad = "#db"+dbS[1].trim()+"Load"
-					dbStart = "#db"+dbS[1].trim()+"Start";
+					var ch = data.line.split(":");
+					var dbS = ch[1].split("b");
+					var dbLoad = "#db"+dbS[1].trim()+"Load"
+					var dbStart = "#db"+dbS[1].trim()+"Start";
 					$(dbLoad).addClass("d-none");
 					$(dbStart).removeClass("d-none");
-					countDB++;
+					if(window.eval(ch[1]) == 0){
+						eval(ch[1]+" = 1");
+						window.countDB++;
+					}
 				}
 				if(data.line.match("^Terminaron")){
-					ch = data.line.split(":");
-					dbF = ch[1].split("b");
-					dbStartF = "#db"+dbF[1].trim()+"Start"
-					dbReady = "#db"+dbF[1].trim()+"Ready";
+					var ch = data.line.split(":");
+					var dbF = ch[1].split("b");
+					var dbStartF = "#db"+dbF[1].trim()+"Start"
+					var dbReady = "#db"+dbF[1].trim()+"Ready";
 					$(dbStartF).addClass("d-none");
 					$(dbReady).removeClass("d-none");
-					if(data.dbCount == countDB){
+					console.log("Terminaron:"+window.countDB);
+					if(data.dbCount == window.countDB){
 						console.log("Entra");
 						$("#resultsBt").removeClass("disabled");
 					}
@@ -121,7 +125,8 @@
 	$(document).ready(function(){
 		//TODO: Acceso a countDB
 		countDB = 0;
-		setInterval(readFile, 10000);
+		db1 = 0; db2 = 0; db3 = 0;
+		setInterval(readFile, 32000);
 	});
 </script>
 {% endblock extrafooter %}
