@@ -123,7 +123,7 @@ then
 			set timeout -1
 		}
 	}
-	send "sudo ~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"CREATE DATABASE sbt;\"\r"
+	send "sudo ~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"CREATE DATABASE database-mysql;\"\r"
 	expect "*>"
 	send "sudo ~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"CREATE USER 'pmm'@'localhost' IDENTIFIED BY '12345';\"\r"
 	expect "*>"
@@ -133,11 +133,11 @@ then
 	expect "*>"
 	send "cd sysbench-tpcc\r"
 	expect "*>"
-	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=sbt --threads=64 --tables=2 --scale=10 prepare\r"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database-mysql --threads=64 --tables=2 --scale=10 prepare\r"
 	expect "*>"
-	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=sbt --threads=64 --tables=2 --scale=10 --time=20 --report-interval=1 run\r"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database-mysql --threads=64 --tables=2 --scale=10 --time=240 --report-interval=1 run\r"
 	expect "*>"
-	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=sbt --threads=64 --tables=2 --scale=10 --time=20 --report-interval=1 cleanup\r"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database-mysql --threads=64 --tables=2 --scale=10 --time=240 --report-interval=1 cleanup\r"
 	expect "*>"
 	send "exit\r"
 	EOD
@@ -172,15 +172,15 @@ then
 	}
 	send "sudo -u postgres psql -c \"ALTER USER postgres PASSWORD '12345';\"\r"
 	expect "*>"
-	send "sudo -u postgres psql -c \"CREATE DATABASE sbtest;\"\r"
+	send "sudo -u postgres psql -c \"CREATE DATABASE database-postgres;\"\r"
 	expect "*>"
 	send "cd sysbench-tpcc\r"
 	expect "*>"
-	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=sbtest --time=20 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql prepare\r"
+	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=database-postgres --time=240 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql prepare\r"
 	expect "*>"
-	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=sbtest --time=20 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql run\r"
+	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=database-postgres --time=240 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql run\r"
 	expect "*>"
-	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=sbtest --time=20 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql cleanup\r"
+	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=database-postgres --time=240 --threads=56 --report-interval=1 --tables=2 --scale=10 --use_fk=0 --trx_level=RC --db-driver=pgsql cleanup\r"
 	expect "*>"
 	send "exit\r"
 	EOD
@@ -216,7 +216,7 @@ then
 			set timeout -1
 		}
 	}
-	send "sudo ~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"CREATE DATABASE sbt1;\"\r"
+	send "sudo ~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"CREATE DATABASE database-mariadb;\"\r"
 	expect "*>"
 	send "sudo ~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"CREATE USER 'pmm2'@'localhost' IDENTIFIED BY '12345';\"\r"
 	expect "*>"
@@ -226,11 +226,11 @@ then
 	expect "*>"
 	send "cd sysbench-tpcc\r"
 	expect "*>"
-	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox10508.sock --mysql-user=root --mysql-password=msandbox --mysql-db=sbt1 --threads=64 --tables=2 --scale=10 prepare\r"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox10508.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database-mariadb --threads=64 --tables=2 --scale=10 prepare\r"
 	expect "*>"
-	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox10508.sock --mysql-user=root --mysql-password=msandbox --mysql-db=sbt1 --threads=64 --tables=2 --scale=10 --time=20 --report-interval=1 run\r"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox10508.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database-mariadb --threads=64 --tables=2 --scale=10 --time=240 --report-interval=1 run\r"
 	expect "*>"
-	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox10508.sock --mysql-user=root --mysql-password=msandbox --mysql-db=sbt1 --threads=64 --tables=2 --scale=10 --time=20 --report-interval=1 cleanup\r"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox10508.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database-mariadb --threads=64 --tables=2 --scale=10 --time=240 --report-interval=1 cleanup\r"
 	expect "*>"
 	send "exit\r"
 	EOD

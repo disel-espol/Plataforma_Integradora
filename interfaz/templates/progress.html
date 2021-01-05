@@ -8,61 +8,65 @@
 
 {% block content %}
 <div class="col-12">
-	<h3>Creación de experimento</h3>
+	<div class="title"><h3>Creación de experimento</h3></div>
 	<div class="spinner-border text-light" role="status" id="experimentLoad">
 		<span class="visually-hidden"> </span>
 	</div>
 	<div class="row align-items-center d-none" id="experimentStart">
-		<span class="mr-2">Iniciando máquina</span><div class="spinner-grow spinner-grow-sm text-light" role="status"></div>
+		<span class="ml-3 mr-2">Iniciando máquina</span><div class="spinner-grow spinner-grow-sm text-light" role="status"></div>
 	</div>
 	<div class="row align-items-center d-none" id="experimentReady">
-		<span class="mr-2">Experimento Listo</span><i class="fas fa-check"></i>
+		<span class="ml-3 mr-2">Experimento Listo</span><i class="fas fa-check"></i>
 	</div>
 </div>
 <br><br>
 <div class="col-12">
-	<h3>Pruebas de rendimiento</h3>
+	<div class="title"><h3>Pruebas de rendimiento</h3></div>
 	<div class="row">
 		<div class="col-4">
+			<div class="test-title">
 			{% if db1 == "MySQL" %}<h4>MySQL</h4>{% endif %}
 			{% if db1 == "PostgreSQL" %}<h4>PostgreSQL</h4>{% endif %}
 			{% if db1 == "MariaDB" %}<h4>MariaDB</h4>{% endif %}
+			</div>
 			<div class="spinner-border text-light" role="status" id="db1Load">
   				<span class="visually-hidden"> </span>
 			</div>
 			<div class="row align-items-center d-none" id="db1Start">
-				<span class="mr-2">Empezando pruebas</span><div class="spinner-grow spinner-grow-sm text-light" role="status"></div>
+				<span class="ml-3 mr-2">Empezando pruebas</span><div class="spinner-grow spinner-grow-sm text-light" role="status"></div>
 			</div>
 			<div class="row align-items-center d-none" id="db1Ready">
-				<span class="mr-2">Pruebas terminadas</span><i class="fas fa-check"></i>
+				<span class="ml-3 mr-2">Pruebas terminadas</span><i class="fas fa-check"></i>
 			</div>
 		</div>
 		{% if db2 != "" %}
 		<div class="col-4">
+			<div class="test-title">
 			{% if db2 == "PostgreSQL" %}<h4>PostgreSQL</h4>{% endif %}
 			{% if db2 == "MariaDB" %}<h4>MariaDB</h4>{% endif %}
+			</div>
 			<div class="spinner-border text-light" role="status" id="db2Load">
   				<span class="visually-hidden"> </span>
 			</div>
 			<div class="row align-items-center d-none" id="db2Start">
-				<span class="mr-2">Empezando pruebas</span><div class="spinner-grow spinner-grow-sm text-light" role="status"></div>
+				<span class="ml-3 mr-2">Empezando pruebas</span><div class="spinner-grow spinner-grow-sm text-light" role="status"></div>
 			</div>
 			<div class="row align-items-center d-none" id="db2Ready">
-				<span class="mr-2">Pruebas terminadas</span><i class="fas fa-check"></i>
+				<span class="ml-3 mr-2">Pruebas terminadas</span><i class="fas fa-check"></i>
 			</div>
 		</div>
 		{% endif %}
 		{% if db3 != "" %}
 		<div class="col-4">
-			<h4>MariaDB</h4>
+			<div class="test-title"><h4>MariaDB</h4></div>
 			<div class="spinner-border text-light" role="status" id="db3Load">
   				<span class="visually-hidden"> </span>
 			</div>
 			<div class="row align-items-center d-none" id="db3Start">
-				<span class="mr-2">Empezando pruebas</span><div class="spinner-border spinner-border-sm text-light" role="status"></div>
+				<span class="ml-3 mr-2">Empezando pruebas</span><div class="spinner-border spinner-border-sm text-light" role="status"></div>
 			</div>
 			<div class="row align-items-center d-none" id="db3Ready">
-				<span class="mr-2">Pruebas terminadas</span><i class="fas fa-check"></i>
+				<span class="ml-3 mr-2">Pruebas terminadas</span><i class="fas fa-check"></i>
 			</div>
 		</div>
 		{% endif %}
@@ -73,6 +77,7 @@
 	<a class="btn btn-secondary" href="{% url 'index' %}">Atrás</a>
 	<a class="btn btn-info ml-2 disabled" href="{% url 'results' %}" id="resultsBt"> Ver resultados</a>
 </div>
+<br>
 {% endblock content %}
 {% block extrafooter %}
 <script type="text/javascript">
