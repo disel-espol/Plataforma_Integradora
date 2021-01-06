@@ -107,7 +107,7 @@ then
 	echo "Empezando pruebas con: db1" &>> $workdir/output.txt
 	/usr/bin/expect <<-EOD
 	set timeout -1
-	spawn ssh -p 2222 $userC
+	spawn ssh -p 22 $userC
 	expect {
 		"Are you sure you want to continue connecting*" {
 			send "yes\r"
@@ -127,11 +127,13 @@ then
 	expect "*>"
 	send "sudo ~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"CREATE DATABASE database_mysql;\"\r"
 	expect "*>"
-	send "sudo ~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"CREATE USER 'pmm'@'localhost' IDENTIFIED BY '12345';\"\r"
+	send "sudo ~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"CREATE USER 'pmm_mysql'@'localhost' IDENTIFIED BY '12345';\"\r"
 	expect "*>"
-	send "sudo ~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"GRANT ALL PRIVILEGES ON *.* TO 'pmm'@'localhost' WITH GRANT OPTION;\"\r"
+	send "sudo ~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"GRANT ALL PRIVILEGES ON *.* TO 'pmm_mysql'@'localhost' WITH GRANT OPTION;\"\r"
 	expect "*>"
 	send "sudo ~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"FLUSH PRIVILEGES;\"\r"
+	expect "*>"
+	send "sudo pmm-admin add mysql --username=pmm_mysql --password=12345 --socket=/tmp/mysql_sandbox8022.sock --query-source=perfschema monitoring_mysql\r"
 	expect "*>"
 	send "cd sysbench-tpcc\r"
 	expect "*>"
@@ -156,7 +158,7 @@ then
 	echo "Empezando pruebas con: $base2" &>> $workdir/output.txt
 	/usr/bin/expect <<-EOD
 	set timeout -1
-	spawn ssh -p 2222 $userC
+	spawn ssh -p 22 $userC
 	expect {
 		"Are you sure you want to continue connecting*" {
 			send "yes\r"
@@ -177,6 +179,10 @@ then
 	send "sudo -u postgres psql -c \"ALTER USER postgres PASSWORD '12345';\"\r"
 	expect "*>"
 	send "sudo -u postgres psql -c \"CREATE DATABASE database_postgres;\"\r"
+	expect "*>"
+	send "sudo -u postgres psql -c \"CREATE USER pmm_postgres WITH SUPERUSER ENCRYPTED PASSWORD '12345';\"\r"
+	expect "*>"
+	send "sudo pmm-admin add postgresql --username='pmm_postgres' --password=12345 monitoring_postgres\r"
 	expect "*>"
 	send "cd sysbench-tpcc\r"
 	expect "*>"
@@ -204,7 +210,7 @@ then
 	echo "Empezando pruebas con: $base3" &>> $workdir/output.txt
 	/usr/bin/expect <<-EOD
 	set timeout -1
-	spawn ssh -p 2222 $userC
+	spawn ssh -p 22 $userC
 	expect {
 		"Are you sure you want to continue connecting*" {
 			send "yes\r"
@@ -224,11 +230,13 @@ then
 	expect "*>"
 	send "sudo ~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"CREATE DATABASE database_mariadb;\"\r"
 	expect "*>"
-	send "sudo ~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"CREATE USER 'pmm2'@'localhost' IDENTIFIED BY '12345';\"\r"
+	send "sudo ~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"CREATE USER 'pmm_mariadb'@'localhost' IDENTIFIED BY '12345';\"\r"
 	expect "*>"
-	send "sudo ~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"GRANT ALL PRIVILEGES ON *.* TO 'pmm2'@'localhost' WITH GRANT OPTION;\"\r"
+	send "sudo ~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"GRANT ALL PRIVILEGES ON *.* TO 'pmm_mariadb'@'localhost' WITH GRANT OPTION;\"\r"
 	expect "*>"
 	send "sudo ~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"FLUSH PRIVILEGES;\"\r"
+	expect "*>"
+	send "sudo pmm-admin add mysql --username=pmm_mariadb --password=12345 --socket=/tmp/mysql_sandbox10508.sock --query-source=perfschema monitoring_mariadb\r"
 	expect "*>"
 	send "cd sysbench-tpcc\r"
 	expect "*>"

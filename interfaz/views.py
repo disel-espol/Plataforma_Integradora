@@ -52,10 +52,6 @@ def progress(request):
 	db1 = request.session['db1']
 	db2 = request.session['db2']
 	db3 = request.session['db3']
-	#hwT = request.session['hwT']
-	#dbC = request.session['dbC']
-	#osT = request.session['osT']
-	#Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(dbC),str(db1),str(db2),str(db3)])
 	return render(request, 'progress.html', {'db1':db1, 'db2':db2, 'db3':db3})
 
 def results(request):
