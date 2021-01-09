@@ -8,7 +8,7 @@
 
 {% block content %}
 {% include 'alert.html' %}
-<form method='POST' id='testForm' novalidate>
+<form method='POST' id='testForm' enctype="multipart/form-data" novalidate>
 	{% csrf_token %}
 	<div class="row">
 		<div class="col-12">
@@ -36,6 +36,11 @@
 		</div>
 	</div>
 	<div class="row">
+		<div class="col-sm-8 col-8">
+			{{ form.confFiles|as_crispy_field }}
+		</div>
+	</div>
+	<div class="row">
 		<div class="col-sm-3 col-12">
 			{{ form.scale|as_crispy_field }}
 		</div>
@@ -46,15 +51,10 @@
 			{{ form.hw_spec|as_crispy_field }}
 		</div>
 		<div class="col-sm-6 col-12">
-			{{ form.db_config|as_crispy_field }}
-			{{ form.dbconf_spec|as_crispy_field }}
+			{{ form.os_type|as_crispy_field }}
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-6 col-12">
-			{{ form.os_type.help_text }}
-			{{ form.os_type|as_crispy_field }}
-		</div>
 		<div class="col-sm-6 col-12 align-items-center" id="div_button">
 			<button type="submit" class="btn btn-info">Ejecutar</button>
 		</div>
@@ -72,19 +72,6 @@
 			},
 			success: function(data){
 				$('#id_hw_spec').val(data.spec);
-			}
-		});
-	}
-
-	function getDbConfig(value){
-		console.log(value);
-		$.ajax({
-			url: '{% url "getDbSpec" %}',
-			data: {
-				'value': value
-			},
-			success: function(data){
-				$('#id_dbconf_spec').val(data.spec);
 			}
 		});
 	}
