@@ -28,13 +28,14 @@ def index(request):
 			hwT = form.cleaned_data.get('hw_type')
 			osT = form.cleaned_data.get('os_type')
 			dbC = form.cleaned_data.get('db_config')
+			scale = form.cleaned_data.get('scale')
 			command = "curl -s -k https://emulab.net/portal/frontpage.php | grep "+str(hwT)+" -C 2 | tail -1 | sed 's/>/</g' | cut -d'<' -f3"
 			avail = getoutput(command)
 			if(int(avail)==0):
 				print("No hay maquinas disponibles")
 				messages.error(request, 'No hay maquinas %s disponibles' %str(hwT))
 				return render(request, 'index.html', {'form':form})
-			Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(dbC),str(db1),str(db2),str(db3)])
+			Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(dbC),str(db1),str(db2),str(db3),str(scale)])
 			request.session['db1'] = str(db1)
 			request.session['db2'] = str(db2)
 			request.session['db3'] = str(db3)

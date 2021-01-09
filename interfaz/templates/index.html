@@ -12,7 +12,6 @@
 	{% csrf_token %}
 	<div class="row">
 		<div class="col-12">
-    		<!--{{ form.rdbms.label_tag }}-->
     		<label class="col-form-label">{{ form.rdbms.label }}</label>
     		<div class="row justify-content-center">
     			<div class="form-check form-check-inline">
@@ -29,8 +28,6 @@
 				                	<img src="{% static 'img/mariadb.png' %}" alt="{{ value }}" class="img-fluid dbc">
 	    						{% endif %}
 				            </label>
-							<!--<input name="{{ form.rdbms.name }}" type="checkbox" value="{{ value }}">
-							<label>{{ text }}</label>-->
 						</div>
 					</div>
 	    			{% endfor %}
@@ -39,6 +36,11 @@
 		</div>
 	</div>
 	<div class="row">
+		<div class="col-sm-3 col-12">
+			{{ form.scale|as_crispy_field }}
+		</div>
+	</div>
+	<div class="row">
 		<div class="col-sm-6 col-12">
 			{{ form.hw_type|as_crispy_field }}
 			{{ form.hw_spec|as_crispy_field }}
@@ -48,24 +50,9 @@
 			{{ form.dbconf_spec|as_crispy_field }}
 		</div>
 	</div>
-	<!--<div class="row">
-		<div class="col-6">
-			{{ form.hw_type|as_crispy_field }}
-		</div>
-		<div class="col-6">
-			{{ form.db_config|as_crispy_field }}
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-6">
-			{{ form.hw_spec|as_crispy_field }}
-		</div>
-		<div class="col-6">
-			{{ form.dbconf_spec|as_crispy_field }}
-		</div>
-	</div>-->
 	<div class="row">
 		<div class="col-sm-6 col-12">
+			{{ form.os_type.help_text }}
 			{{ form.os_type|as_crispy_field }}
 		</div>
 		<div class="col-sm-6 col-12 align-items-center" id="div_button">

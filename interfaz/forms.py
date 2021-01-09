@@ -13,6 +13,7 @@ class TestForm(forms.ModelForm):
 			'db_config': 'Configuración de base de datos',
 			'dbconf_spec': '',
 			'os_type': 'Sistema Operativo',
+			'scale':'Scale',
 		}
 
 		widgets = {
@@ -22,6 +23,7 @@ class TestForm(forms.ModelForm):
 			'db_config': forms.Select(attrs={"class":"form-control", "onchange":"getDbConfig(this.value);"}),
 			'dbconf_spec': forms.Textarea(attrs={'readonly':True, 'rows':8}),
 			'os_type': forms.Select(attrs={"class":"form-control"}),
+			'scale': forms.Select(attrs={"class":"form-control"}),
 		}
 
 
