@@ -21,11 +21,11 @@
 	    					<input name="{{ form.rdbms.name }}" type="checkbox" class="custom-control-input" value="{{ value }}" id="id_rdbms_{{ forloop.counter0 }}">
 	    					<label class="custom-control-label" for="id_rdbms_{{ forloop.counter0 }}">
 	    						{% if text == 'MySQL' %}
-				                	<img src="{% static 'img/mysql.png' %}" alt="{{ value }}" class="img-fluid dbc">
+				                	<img src="{% static 'img/mysql.png' %}" alt="{{ text }}" class="img-fluid dbc">
 				                {% elif text == 'PostgreSQL' %}
-				                	<img src="{% static 'img/postgresql.png' %}" alt="{{ value }}" class="img-fluid dbc">
+				                	<img src="{% static 'img/postgresql.png' %}" alt="{{ text }}" class="img-fluid dbc">
 				                {% else %}
-				                	<img src="{% static 'img/mariadb.png' %}" alt="{{ value }}" class="img-fluid dbc">
+				                	<img src="{% static 'img/mariadb.png' %}" alt="{{ text }}" class="img-fluid dbc">
 	    						{% endif %}
 				            </label>
 						</div>
@@ -36,8 +36,14 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-8 col-8">
-			{{ form.confFiles|as_crispy_field }}
+		<div class="col-sm-4 col-12">
+			{{ form.db1File|as_crispy_field }}
+		</div>
+		<div class="col-sm-4 col-12">
+			{{ form.db2File|as_crispy_field }}
+		</div>
+		<div class="col-sm-4 col-12">
+			{{ form.db3File|as_crispy_field }}
 		</div>
 	</div>
 	<div class="row">
@@ -61,6 +67,7 @@
 	</div>
 </form>
 <br>
+{% endblock content %}
 {% block extrafooter %}
 <script type="text/javascript">
 	function getHwType(value){
@@ -75,6 +82,30 @@
 			}
 		});
 	}
+
+	$(document).ready(function(){
+		$('#id_rdbms_0').change(function(){
+			if($('#id_rdbms_0').is(':checked')){
+				document.getElementById("id_db1File").disabled = false;
+			} else {
+				document.getElementById("id_db1File").disabled = true;
+			}
+		});
+		$('#id_rdbms_1').change(function(){
+			if($('#id_rdbms_1').is(':checked')){
+				document.getElementById("id_db2File").disabled = false;
+			} else {
+				document.getElementById("id_db2File").disabled = true;
+			}
+		});
+		$('#id_rdbms_2').change(function(){
+			if($('#id_rdbms_2').is(':checked')){
+				document.getElementById("id_db3File").disabled = false;
+			} else {
+				document.getElementById("id_db3File").disabled = true;
+			}
+		});
+	});
+	
 </script>
 {% endblock extrafooter %}
-{% endblock content %}

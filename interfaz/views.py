@@ -7,7 +7,6 @@ from .forms import TestForm
 from subprocess import Popen, getoutput
 from django.conf import settings
 import os
-from django.core.files import File
 
 # Create your views here.
 
@@ -34,8 +33,15 @@ def index(request):
 				print("No hay maquinas disponibles")
 				messages.error(request, 'No hay maquinas %s disponibles' %str(hwT))
 				return render(request, 'index.html', {'form':form})
-			for f in request.FILES.getlist('confFiles'):
-				handle_uploaded_file(f)
+			db1File = form.cleaned_data.get('db1File')
+			db2File = form.cleaned_data.get('db2File')
+			db3File = form.cleaned_data.get('db3File')
+			if(db1File):
+				handle_uploaded_file(db1File, "mysql.cnf")
+			if(db2File):
+				handle_uploaded_file(db2File, "postgresql.conf")
+			if(db3File):
+				handle_uploaded_file(db3File, "mariadb.cnf")
 			Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(scale),str(db1),str(db2),str(db3)])
 			request.session['db1'] = str(db1)
 			request.session['db2'] = str(db2)
@@ -86,9 +92,9 @@ def readFile(request):
 	dbCount = request.session['dbCount']
 	return JsonResponse({'line':line, 'dbCount':dbCount})
 
-def handle_uploaded_file(file):
+def handle_uploaded_file(file, name):
 	os.makedirs("media", exist_ok=True)
-	path = os.path.join(settings.MEDIA_ROOT, file.name)
+	path = os.path.join(settings.MEDIA_ROOT, name)
 	fconf = open(path, 'wb+')
 	for chunk in file.chunks():
 		fconf.write(chunk)
