@@ -96,6 +96,8 @@ do
 	sleep 30
 done
 
+sleep 35
+
 # CONNECT VIA SSH
 host=$(get_host)
 ht_final=$(echo $host | grep -o 'hostname=.*' | cut -f 2 -d\" | cut -d'\' -f 1)

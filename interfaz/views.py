@@ -7,6 +7,7 @@ from .forms import TestForm
 from subprocess import Popen, getoutput
 from django.conf import settings
 import os
+from django.core.files import File
 
 # Create your views here.
 
@@ -29,12 +30,12 @@ def index(request):
 			hwT = form.cleaned_data.get('hw_type')
 			osT = form.cleaned_data.get('os_type')
 			scale = form.cleaned_data.get('scale')
-			command = "curl -s -k https://emulab.net/portal/frontpage.php | grep "+str(hwT)+" -C 2 | tail -1 | sed 's/>/</g' | cut -d'<' -f3"
-			avail = getoutput(command)
-			if(int(avail)==0):
+			if(int(availNodes(hwT))==0):
 				print("No hay maquinas disponibles")
 				messages.error(request, 'No hay maquinas %s disponibles' %str(hwT))
 				return render(request, 'index.html', {'form':form})
+			for f in request.FILES.getlist('confFiles'):
+				handle_uploaded_file(f)
 			Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(scale),str(db1),str(db2),str(db3)])
 			request.session['db1'] = str(db1)
 			request.session['db2'] = str(db2)
@@ -57,6 +58,10 @@ def progress(request):
 def results(request):
 	return render(request, 'results.html')
 
+def availNodes(code):
+	command = "curl -s -k https://emulab.net/portal/frontpage.php | grep "+str(code)+" -C 2 | tail -1 | sed 's/>/</g' | cut -d'<' -f3"
+	return getoutput(command)
+
 def get_hwType(request):
 	pk = request.GET.get('value')
 	spec = HardwareType.objects.get(pk=pk).specifications
@@ -75,9 +80,16 @@ def file_len(fname):
 
 def readFile(request):
 	path = os.path.join(settings.BASE_DIR, 'output.txt')
-	#nliness = file_len(path)
 	f = open(path)
 	lines = f.readlines()
 	line = lines[-1]
 	dbCount = request.session['dbCount']
 	return JsonResponse({'line':line, 'dbCount':dbCount})
+
+def handle_uploaded_file(file):
+	os.makedirs("media", exist_ok=True)
+	path = os.path.join(settings.MEDIA_ROOT, file.name)
+	fconf = open(path, 'wb+')
+	for chunk in file.chunks():
+		fconf.write(chunk)
+	fconf.close() 

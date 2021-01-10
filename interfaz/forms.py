@@ -21,5 +21,5 @@ class TestForm(forms.ModelForm):
 			'hw_spec': forms.Textarea(attrs={'readonly':True, 'rows':8}),
 			'os_type': forms.Select(attrs={"class":"form-control"}),
 			'scale': forms.Select(attrs={"class":"form-control"}),
-			'confFiles': forms.ClearableFileInput(attrs={'class':'form-control'}),
+			'confFiles': forms.ClearableFileInput(attrs={'class':'form-control', 'multiple': True}),
 		}

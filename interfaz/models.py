@@ -37,4 +37,4 @@ class Test(models.Model):
 	hw_spec = models.CharField(max_length=1000, blank=True)
 	os_type = models.ForeignKey(OSType, on_delete=models.CASCADE)
 	scale = models.IntegerField(choices=SCALE_CHOICES, default=10, help_text="TPC-C Workload: Un valor de 10 produce 1GB de data")
-	confFiles = models.FileField(upload_to='configurations/', blank=True, null=True, help_text="Nombrar el archivo con el nombre de la base a aplicarse dicha configuración. MySQL y MariaDB usan la extensión .cnf, PostgreSQL usa extensión .conf. Ejemplo: mysql.cnf - mariadb.cnf - postgresql.conf", validators=[validate_file])
+	confFiles = models.FileField(blank=True, null=True, help_text="Nombrar el archivo con el nombre de la base a aplicarse dicha configuración. MySQL y MariaDB usan la extensión .cnf, PostgreSQL usa extensión .conf. Ejemplo: mysql.cnf - mariadb.cnf - postgresql.conf", validators=[validate_file])
