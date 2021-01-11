@@ -95,7 +95,6 @@ do
 	echo "Sleep por 30s"
 	sleep 30
 done
-
 sleep 35
 
 # CONNECT VIA SSH
@@ -103,6 +102,103 @@ host=$(get_host)
 ht_final=$(echo $host | grep -o 'hostname=.*' | cut -f 2 -d\" | cut -d'\' -f 1)
 userC="$usuario"@"$ht_final"
 echo "$userC"
+
+if [[ $7 == "exist" ]];
+then
+	/usr/bin/expect <<-EOD
+	spawn ssh -p 22 $userC
+	expect {
+		"Are you sure you want to continue connecting*" {
+			send "yes\r"
+		}
+		"Enter passphrase for key*" {
+			send "$passKey\r"
+		}
+	}
+	expect {
+		"Enter passphrase for key*" {
+			send "$passKey\r"
+		}
+		"*>" {
+			send "echo ok\r"
+		}
+	}
+	expect "*>"
+	send "sudo chmod 777 ~/sandboxes/msb_8_0_22\r"
+	expect "*>"
+	send "exit\r"
+	expect eod
+	EOD
+	/usr/bin/expect <<-EOD
+	spawn scp -P 22 $workdir/media/mysql.cnf $userC:~/sandboxes/msb_8_0_22/my.sandbox.cnf
+	expect "Enter passphrase for key*"
+	send "$passKey\r"
+	expect eod
+	EOD
+fi
+if [[ $8 == "exist" ]];
+then
+	/usr/bin/expect <<-EOD
+	spawn scp -P 22 $workdir/media/postgresql.conf $userC:./
+	expect {
+		"Are you sure you want to continue connecting*" {
+			send "yes\r"
+		}
+		"Enter passphrase for key*" {
+			send "$passKey\r"
+		}
+	}
+	expect {
+		"Enter passphrase for key*" {
+			send "$passKey\r"
+		}
+		eod 
+	}
+	EOD
+	/usr/bin/expect <<-EOD
+	spawn ssh -p 22 $userC
+	expect "Enter passphrase for key*"
+	send "$passKey\r"
+	expect "*>"
+	send "sudo mv postgresql.conf /etc/postgresql/13/main\r"
+	expect "*>"
+	send "exit\r"
+	expect eod
+	EOD
+fi
+if [[ $9 == "exist" ]];
+then
+	/usr/bin/expect <<-EOD
+	spawn ssh -p 22 $userC
+	expect {
+		"Are you sure you want to continue connecting*" {
+			send "yes\r"
+		}
+		"Enter passphrase for key*" {
+			send "$passKey\r"
+		}
+	}
+	expect {
+		"Enter passphrase for key*" {
+			send "$passKey\r"
+		}
+		"*>" {
+			send "echo ok\r"
+		}
+	}
+	expect "*>"
+	send "sudo chmod 777 ~/sandboxes/msb_10_5_8\r"
+	expect "*>"
+	send "exit\r"
+	expect eod
+	EOD
+	/usr/bin/expect <<-EOD
+	spawn scp -P 22 $workdir/media/mariadb.cnf $userC:~/sandboxes/msb_10_5_8/my.sandbox.cnf
+	expect "Enter passphrase for key*"
+	send "$passKey\r"
+	expect eod
+	EOD
+fi
 
 if [[ $4 == "MySQL" ]];
 then
@@ -127,6 +223,8 @@ then
 		}
 	}
 	expect "*>"
+	send "sudo ~/sandboxes/msb_8_0_22/restart\r"
+	expect "*>"
 	send "sudo ~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"CREATE DATABASE database_mysql;\"\r"
 	expect "*>"
 	send "sudo ~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"CREATE USER 'pmm_mysql'@'localhost' IDENTIFIED BY '12345';\"\r"
@@ -146,6 +244,7 @@ then
 	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database_mysql --threads=64 --tables=2 --scale=$3 --time=240 --report-interval=1 cleanup\r"
 	expect "*>"
 	send "exit\r"
+	expect eod
 	EOD
 	echo "Terminaron pruebas con: db1" &>> $workdir/output.txt
 	sleep 35
@@ -178,6 +277,8 @@ then
 		}
 	}
 	expect "*>"
+	send "sudo service postgresql restart\r"
+	expect "*>"
 	send "sudo -u postgres psql -c \"ALTER USER postgres PASSWORD '12345';\"\r"
 	expect "*>"
 	send "sudo -u postgres psql -c \"CREATE DATABASE database_postgres;\"\r"
@@ -195,6 +296,7 @@ then
 	send "./tpcc.lua --pgsql-user=postgres --pgsql-password=12345 --pgsql-db=database_postgres --time=240 --threads=56 --report-interval=1 --tables=2 --scale=$3 --use_fk=0 --trx_level=RC --db-driver=pgsql cleanup\r"
 	expect "*>"
 	send "exit\r"
+	expect eod
 	EOD
 	echo "Terminaron pruebas con: $base2" &>> $workdir/output.txt
 	sleep 35
@@ -230,6 +332,8 @@ then
 		}
 	}
 	expect "*>"
+	send "sudo ~/sandboxes/msb_10_5_8/restart\r"
+	expect "*>"
 	send "sudo ~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"CREATE DATABASE database_mariadb;\"\r"
 	expect "*>"
 	send "sudo ~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"CREATE USER 'pmm_mariadb'@'localhost' IDENTIFIED BY '12345';\"\r"
@@ -249,6 +353,7 @@ then
 	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox10508.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database_mariadb --threads=64 --tables=2 --scale=$3 --time=240 --report-interval=1 cleanup\r"
 	expect "*>"
 	send "exit\r"
+	expect eod
 	EOD
 	echo "Terminaron pruebas con: $base3" &>> $workdir/output.txt
 fi

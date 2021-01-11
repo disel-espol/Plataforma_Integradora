@@ -33,16 +33,20 @@ def index(request):
 				print("No hay maquinas disponibles")
 				messages.error(request, 'No hay maquinas %s disponibles' %str(hwT))
 				return render(request, 'index.html', {'form':form})
+			db1fX, db2fX, db3fX = '', '', ''
 			db1File = form.cleaned_data.get('db1File')
 			db2File = form.cleaned_data.get('db2File')
 			db3File = form.cleaned_data.get('db3File')
 			if(db1File):
 				handle_uploaded_file(db1File, "mysql.cnf")
+				db1fX = 'exist'
 			if(db2File):
 				handle_uploaded_file(db2File, "postgresql.conf")
+				db2fX = 'exist'
 			if(db3File):
 				handle_uploaded_file(db3File, "mariadb.cnf")
-			Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(scale),str(db1),str(db2),str(db3)])
+				db3fX = 'exist'
+			Popen(['bash','tools/bin/cloudlab.sh',str(hwT),str(osT),str(scale),str(db1),str(db2),str(db3),str(db1fX),str(db2fX),str(db3fX)])
 			request.session['db1'] = str(db1)
 			request.session['db2'] = str(db2)
 			request.session['db3'] = str(db3)
