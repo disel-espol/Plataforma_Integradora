@@ -124,7 +124,7 @@ then
 		}
 	}
 	expect "*>"
-	send "sudo chmod 777 ~/sandboxes/msb_8_0_22\r"
+	send "sudo chmod 777 ~/sandboxes/msb_8_0_22/my.sandbox.cnf\r"
 	expect "*>"
 	send "exit\r"
 	expect eod
@@ -187,7 +187,7 @@ then
 		}
 	}
 	expect "*>"
-	send "sudo chmod 777 ~/sandboxes/msb_10_5_8\r"
+	send "sudo chmod 777 ~/sandboxes/msb_10_5_8/my.sandbox.cnf\r"
 	expect "*>"
 	send "exit\r"
 	expect eod
