@@ -7,7 +7,7 @@ RUN mkdir /root/.ssl
 RUN chmod 777 /root/.ssl
 COPY emulab.pem /root/.ssl/
 COPY .ssh/id* /root/.ssh/
-RUN chmod 600 /root/.ssh/id_rsa
+RUN chmod 600 /root/.ssh/id*
 WORKDIR /code
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
