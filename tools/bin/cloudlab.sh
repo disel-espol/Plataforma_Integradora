@@ -56,7 +56,7 @@ then
 	if [[ $2 == "Ubuntu 18.04 LTS" ]]; 
 	then
 		/usr/bin/expect <<-EOD
-		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d710
+		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d710-2
 		expect "Enter PEM pass phrase:"
 		send "$passCred\r"
 		expect eod
