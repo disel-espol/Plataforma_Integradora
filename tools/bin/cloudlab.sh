@@ -106,7 +106,7 @@ echo "$userC"
 if [[ $7 == "exist" ]];
 then
 	/usr/bin/expect <<-EOD
-	spawn ssh -p 22 $userC
+	spawn ssh -p 22 -o ServerAliveInterval=30 $userC
 	expect {
 		"Are you sure you want to continue connecting*" {
 			send "yes\r"
@@ -156,7 +156,7 @@ then
 	}
 	EOD
 	/usr/bin/expect <<-EOD
-	spawn ssh -p 22 $userC
+	spawn ssh -p 22 -o ServerAliveInterval=30 $userC
 	expect "Enter passphrase for key*"
 	send "$passKey\r"
 	expect "*>"
@@ -169,7 +169,7 @@ fi
 if [[ $9 == "exist" ]];
 then
 	/usr/bin/expect <<-EOD
-	spawn ssh -p 22 $userC
+	spawn ssh -p 22 -o ServerAliveInterval=30 $userC
 	expect {
 		"Are you sure you want to continue connecting*" {
 			send "yes\r"
@@ -205,7 +205,7 @@ then
 	echo "Empezando pruebas con: db1" &>> $workdir/output.txt
 	/usr/bin/expect <<-EOD
 	set timeout -1
-	spawn ssh -p 22 $userC
+	spawn ssh -p 22 -o ServerAliveInterval=30 $userC
 	expect {
 		"Are you sure you want to continue connecting*" {
 			send "yes\r"
@@ -259,7 +259,7 @@ then
 	echo "Empezando pruebas con: $base2" &>> $workdir/output.txt
 	/usr/bin/expect <<-EOD
 	set timeout -1
-	spawn ssh -p 22 $userC
+	spawn ssh -p 22 -o ServerAliveInterval=30 $userC
 	expect {
 		"Are you sure you want to continue connecting*" {
 			send "yes\r"
@@ -314,7 +314,7 @@ then
 	echo "Empezando pruebas con: $base3" &>> $workdir/output.txt
 	/usr/bin/expect <<-EOD
 	set timeout -1
-	spawn ssh -p 22 $userC
+	spawn ssh -p 22 -o ServerAliveInterval=30 $userC
 	expect {
 		"Are you sure you want to continue connecting*" {
 			send "yes\r"
