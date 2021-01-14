@@ -96,6 +96,13 @@ def readFile(request):
 	dbCount = request.session['dbCount']
 	return JsonResponse({'line':line, 'dbCount':dbCount})
 
+def readLogs(request):
+	Popen(['bash','tools/bin/logs.sh'])
+	path = os.path.join(settings.BASE_DIR, 'logs.txt')
+	f = open(path)
+	lines = f.read()
+	return JsonResponse({'lines':lines})
+
 def handle_uploaded_file(file, name):
 	os.makedirs("media", exist_ok=True)
 	path = os.path.join(settings.MEDIA_ROOT, name)

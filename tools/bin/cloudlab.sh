@@ -9,7 +9,7 @@ passKey="" #Passphrase for the key used to connect through ssh
 # GET STATUS OF THE EXPERIMENT
 get_status(){
 	/usr/bin/expect <<-EOD
-	spawn $workdir/tools/bin/experimentStatus ESPOL-sched,comp-rdbms
+	spawn $workdir/tools/bin/experimentStatus ESPOL-sched,comp-rdbms2
 	expect "Enter PEM pass phrase:"
 	send "$passCred\r"
 	expect eod
@@ -19,7 +19,7 @@ get_status(){
 # GET HOST OF THE NODE
 get_host(){
 	/usr/bin/expect <<-EOD
-	spawn $workdir/tools/bin/experimentManifests ESPOL-sched,comp-rdbms
+	spawn $workdir/tools/bin/experimentManifests ESPOL-sched,comp-rdbms2
 	expect "Enter PEM pass phrase:"
 	send "$passCred\r"
 	expect eod
@@ -34,7 +34,7 @@ then
 	if [[ $2 == "Ubuntu 18.04 LTS" ]];
 	then
 		/usr/bin/expect <<-EOD
-		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc3-d430
+		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms2 ESPOL-sched,tpcc-d430
 		expect "Enter PEM pass phrase:"
 		send "$passCred\r"
 		expect eod
@@ -56,7 +56,7 @@ then
 	if [[ $2 == "Ubuntu 18.04 LTS" ]]; 
 	then
 		/usr/bin/expect <<-EOD
-		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d710-2
+		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms2 ESPOL-sched,tpcc-d710-2
 		expect "Enter PEM pass phrase:"
 		send "$passCred\r"
 		expect eod
@@ -237,11 +237,11 @@ then
 	expect "*>"
 	send "cd sysbench-tpcc\r"
 	expect "*>"
-	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database_mysql --threads=64 --tables=2 --scale=$3 --time=240 prepare\r"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database_mysql --threads=64 --tables=2 --scale=$3 --time=240 prepare |& tee -a ~/logs.txt\r"
 	expect "*>"
-	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database_mysql --threads=64 --tables=2 --scale=$3 --time=240 --report-interval=1 run\r"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database_mysql --threads=64 --tables=2 --scale=$3 --time=240 --report-interval=1 run |& tee -a ~/logs.txt\r"
 	expect "*>"
-	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database_mysql --threads=64 --tables=2 --scale=$3 --time=240 --report-interval=1 cleanup\r"
+	send "./tpcc.lua --mysql-socket=/tmp/mysql_sandbox8022.sock --mysql-user=root --mysql-password=msandbox --mysql-db=database_mysql --threads=64 --tables=2 --scale=$3 --time=240 --report-interval=1 cleanup |& tee -a ~/logs.txt\r"
 	expect "*>"
 	send "exit\r"
 	expect eod

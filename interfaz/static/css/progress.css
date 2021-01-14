@@ -2,6 +2,11 @@ p {
 	font-size: large;
 }
 
+.scroll {
+	overflow: scroll;
+	height:100%;  
+}
+
 .title {
 	/*background-color: #FAE5D3;
 	color: #000000;

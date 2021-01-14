@@ -75,9 +75,11 @@
 <br><br>
 <div class="col-12 align-items-center" id="div_button">
 	<a class="btn btn-secondary" href="{% url 'index' %}">Atrás</a>
-	<a class="btn btn-info ml-2 disabled" href="node.clitest.espol-sched.emulab.net" rel="noopener noreferrer" target="_blank" id="resultsBt"> Ver resultados</a>
+	<a class="btn btn-info ml-2 disabled" href="node.comp-rdbms2.espol-sched.emulab.net" rel="noopener noreferrer" target="_blank" id="resultsBt"> Ver resultados</a>
 </div>
 <br>
+<div class="col-12 align-items-center scroll" >
+</div>
 {% endblock content %}
 {% block extrafooter %}
 <script type="text/javascript">
@@ -126,11 +128,24 @@
 			}
 		});
 	}
+
+	function readLogs(){
+		$.ajax({
+			url: '{% url "readLogs" %}',
+			success: function(data){
+				output=data.lines;
+				console.log(output);
+				output = output.toString().replace(/(?:\r\n|\r|\n)/g, '<br>');
+				$(".scroll").html(output);
+			}
+		});
+	}
 	$(document).ready(function(){
 		//TODO: Acceso a countDB
 		countDB = 0;
 		db1 = 0; db2 = 0; db3 = 0;
 		setInterval(readFile, 32000);
+		setInterval(readLogs,60000);
 	});
 </script>
 {% endblock extrafooter %}
