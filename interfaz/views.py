@@ -101,6 +101,7 @@ def readLogs(request):
 	path = os.path.join(settings.BASE_DIR, 'logs.txt')
 	f = open(path)
 	lines = f.read()
+	f.close()
 	return JsonResponse({'lines':lines})
 
 def handle_uploaded_file(file, name):

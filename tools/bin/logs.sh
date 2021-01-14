@@ -5,7 +5,7 @@ passKey="" #Passphrase for the key used to connect through ssh
 
 get_host(){
 	/usr/bin/expect <<-EOD
-	spawn $workdir/tools/bin/experimentManifests ESPOL-sched,comp-rdbms2
+	spawn $workdir/tools/bin/experimentManifests ESPOL-sched,comp-rdbms
 	expect "Enter PEM pass phrase:"
 	send "$passCred\r"
 	expect eod

@@ -9,7 +9,7 @@ passKey="" #Passphrase for the key used to connect through ssh
 # GET STATUS OF THE EXPERIMENT
 get_status(){
 	/usr/bin/expect <<-EOD
-	spawn $workdir/tools/bin/experimentStatus ESPOL-sched,comp-rdbms2
+	spawn $workdir/tools/bin/experimentStatus ESPOL-sched,comp-rdbms
 	expect "Enter PEM pass phrase:"
 	send "$passCred\r"
 	expect eod
@@ -19,7 +19,7 @@ get_status(){
 # GET HOST OF THE NODE
 get_host(){
 	/usr/bin/expect <<-EOD
-	spawn $workdir/tools/bin/experimentManifests ESPOL-sched,comp-rdbms2
+	spawn $workdir/tools/bin/experimentManifests ESPOL-sched,comp-rdbms
 	expect "Enter PEM pass phrase:"
 	send "$passCred\r"
 	expect eod
@@ -34,7 +34,7 @@ then
 	if [[ $2 == "Ubuntu 18.04 LTS" ]];
 	then
 		/usr/bin/expect <<-EOD
-		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms2 ESPOL-sched,tpcc-d430
+		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d430
 		expect "Enter PEM pass phrase:"
 		send "$passCred\r"
 		expect eod
@@ -56,7 +56,7 @@ then
 	if [[ $2 == "Ubuntu 18.04 LTS" ]]; 
 	then
 		/usr/bin/expect <<-EOD
-		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms2 ESPOL-sched,tpcc-d710-2
+		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d710-2
 		expect "Enter PEM pass phrase:"
 		send "$passCred\r"
 		expect eod
