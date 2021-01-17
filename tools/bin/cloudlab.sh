@@ -5,7 +5,7 @@ usuario=$(printenv USER)
 workdir=$(printenv PWD)
 passCred="" #Passphrase for the credentials downloaded from CloudLab
 passKey="" #Passphrase for the key used to connect through ssh
-#
+
 # GET STATUS OF THE EXPERIMENT
 get_status(){
 	/usr/bin/expect <<-EOD
@@ -91,6 +91,11 @@ do
 	then
 		echo "The experiment is ready to use!"
 		break
+	fi
+	if [[ $st_final == *"failed"* ]];
+	then
+		echo "The experiment failed"
+		exit
 	fi
 	echo "Sleep por 30s"
 	sleep 30

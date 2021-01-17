@@ -96,8 +96,9 @@ def readFile(request):
 	f = open(path)
 	lines = f.readlines()
 	line = lines[-1]
+	line2 = lines[-2]
 	dbCount = request.session['dbCount']
-	return JsonResponse({'line':line, 'dbCount':dbCount})
+	return JsonResponse({'line':line, 'dbCount':dbCount, 'line2':line2})
 
 def readLogs(request):
 	Popen(['bash','tools/bin/logs.sh'])

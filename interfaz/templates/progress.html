@@ -18,6 +18,9 @@
 	<div class="row align-items-center d-none" id="experimentReady">
 		<span class="ml-3 mr-2">Experimento Listo</span><i class="fas fa-check"></i>
 	</div>
+	<div class="row align-items-center d-none" id="experimentError">
+		<span class="ml-3 mr-2">Error al crear experimento, no se pueden realizar pruebas</span><i class="fas fa-exclamation-triangle"></i>
+	</div>
 </div>
 <br><br>
 <div class="col-12">
@@ -134,6 +137,17 @@
 			success: function(data){
 				console.log(data.line);
 				console.log("Bases:"+data.dbCount);
+				if(data.line2.match("^Estado")){
+					var ch = data.line2.split(":");
+					console.log(ch[1]);
+					if(ch[1].trim() === "failed"){
+						$("div#experimentLoad").addClass("d-none");
+						$("div#experimentError").removeClass("d-none");
+						$("div#db1Load").addClass("d-none");
+						$("div#db2Load").addClass("d-none");
+						$("div#db3Load").addClass("d-none");
+					}
+				}
 				if(data.line.match("^SetUp")){
 					var ch = data.line.split(":");
 					console.log(ch[1]);
