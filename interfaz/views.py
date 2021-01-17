@@ -56,6 +56,9 @@ def index(request):
 			return redirect('progress')
 	else:
 		print("carga")
+		location = os.path.join(settings.BASE_DIR, 'logs.txt')
+		if(os.path.exists(location)):
+			os.remove(location)
 		form = TestForm()
 	return render(request, 'index.html', {'form':form})
 
