@@ -77,21 +77,19 @@
 </div>
 <br><br>
 <div class="col-12">
-	<div class="btn-group">
-		<a class="btn btn-secondary" href="{% url 'index' %}">Atrás</a>
-	</div>
-	<!--<a class="btn btn-info ml-2 disabled" href="//node.comp-rdbms.espol-sched.emulab.net" rel="noopener noreferrer" target="_blank" id="resultsBt"> Ver resultados</a>-->
 	{% if db1 == "MySQL" %}
 	<div class="btn-group">
 		<button type="button" class="btn btn-info dropdown-toggle disabled mysqlBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			Ver Resultados MySQL
 		</button>
 		<div class="dropdown-menu">
+			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-instance-summary/mysql-instance-summary" rel="noopener noreferrer" target="_blank">Resumen de instancia MySQL</a>
+			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-instance-compare/mysql-instances-compare" rel="noopener noreferrer" target="_blank">Comparación de instancias MySQL</a>
+			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-instance-overview/mysql-instances-overview" rel="noopener noreferrer" target="_blank">Detalles generales de instancias MySQL</a>
 			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/pmm-qan/pmm-query-analytics" rel="noopener noreferrer" target="_blank">Query Analytics</a>
 			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-performance-schema/mysql-performance-schema-details" rel="noopener noreferrer" target="_blank">Detalles del rendimiento del schema</a>
 			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-commandhandler-compare/mysql-command-handler-counters-compare" rel="noopener noreferrer" target="_blank">Comparación de comandos y handlers</a>
 			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-waitevents-analysis/mysql-wait-event-analyses-details" rel="noopener noreferrer" target="_blank">Eventos de espera</a>
-			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-instance-compare/mysql-instances-compare" rel="noopener noreferrer" target="_blank">Comparación de instancias MySQL</a>
 		</div>
 	</div>
 	{% endif %}
@@ -113,20 +111,35 @@
 			Ver Resultados MariaDB
 		</button>
 		<div class="dropdown-menu">
+			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-instance-summary/mysql-instance-summary" rel="noopener noreferrer" target="_blank">Resumen de instancia MySQL</a>
+			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-instance-compare/mysql-instances-compare" rel="noopener noreferrer" target="_blank">Comparación de instancias MySQL</a>
+			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-instance-overview/mysql-instances-overview" rel="noopener noreferrer" target="_blank">Detalles generales de instancias MySQL</a>
 			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/pmm-qan/pmm-query-analytics" rel="noopener noreferrer" target="_blank">Query Analytics</a>
 			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-performance-schema/mysql-performance-schema-details" rel="noopener noreferrer" target="_blank">Detalles del rendimiento del schema</a>
 			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-commandhandler-compare/mysql-command-handler-counters-compare" rel="noopener noreferrer" target="_blank">Comparación de comandos y handlers</a>
 			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-waitevents-analysis/mysql-wait-event-analyses-details" rel="noopener noreferrer" target="_blank">Eventos de espera</a>
-			<a class="dropdown-item" href="//node.comp-rdbms.espol-sched.emulab.net/graph/d/mysql-instance-compare/mysql-instances-compare" rel="noopener noreferrer" target="_blank">Comparación de instancias MySQL</a>
 		</div>
 	</div>
 	{% endif %}
 </div>
-<br>
-<div class='col-12'>
-	<div class="title"><h3>Logs de la ejecución de las pruebas</h3></div>
-	<div class="align-items-center scroll">
+<div class="col-12 mt-2">
+	<div class="btn-group">
+		<a class="btn btn-secondary" href="{% url 'index' %}">Atrás</a>
 	</div>
+</div>
+<br>
+<div class="col-12">
+	<div class="row">
+		<div class="col-6">
+			<h3>Logs de la ejecución de las pruebas</h3>
+		</div>
+		<div class="col-6">
+			<a class="btn btn-info float-right disabled btnLogs" href="/media/logs.txt" download>Descargar logs</a>
+		</div>
+	</div>	
+</div>
+<br>
+<div class="col-12 align-items-center scroll">
 </div>
 {% endblock content %}
 {% block extrafooter %}
@@ -184,6 +197,7 @@
 						$(".mysqlBtn").removeClass("disabled");
 						$(".postgresBtn").removeClass("disabled");
 						$(".mariaBtn").removeClass("disabled");
+						$(".btnLogs").removeClass("disabled");
 					}
 				}
 			}
@@ -195,7 +209,6 @@
 			url: '{% url "readLogs" %}',
 			success: function(data){
 				output=data.lines;
-				console.log(output);
 				output = output.toString().replace(/(?:\r\n|\r|\n)/g, '<br>');
 				$(".scroll").html(output);
 				var messageBody = document.querySelector('.scroll');

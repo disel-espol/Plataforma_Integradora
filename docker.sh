@@ -7,4 +7,3 @@ ln -sf ../emulab-xmlrpc/script_wrapper.py experimentStatus
 ln -sf ../emulab-xmlrpc/script_wrapper.py extendExperiment
 ln -sf ../emulab-xmlrpc/script_wrapper.py startExperiment
 ln -sf ../emulab-xmlrpc/script_wrapper.py terminateExperiment
-

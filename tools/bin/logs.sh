@@ -34,7 +34,7 @@ then
 	userC="$usuario"@"$ht_final"
 
 	/usr/bin/expect <<-EOD
-	spawn scp -P 22 $userC:~/logs.txt $workdir/logs.txt
+	spawn scp -P 22 $userC:~/logs.txt $workdir/media/logs.txt
 	expect {
 		"Are you sure you want to continue connecting*" {
 			send "yes\r"

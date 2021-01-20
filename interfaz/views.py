@@ -56,7 +56,7 @@ def index(request):
 			return redirect('progress')
 	else:
 		print("carga")
-		location = os.path.join(settings.BASE_DIR, 'logs.txt')
+		location = os.path.join(settings.MEDIA_ROOT, 'logs.txt')
 		if(os.path.exists(location)):
 			os.remove(location)
 		form = TestForm()
@@ -102,7 +102,7 @@ def readFile(request):
 
 def readLogs(request):
 	Popen(['bash','tools/bin/logs.sh'])
-	location = os.path.join(settings.BASE_DIR, 'logs.txt')
+	location = os.path.join(settings.MEDIA_ROOT, 'logs.txt')
 	lines=""
 	if(os.path.exists(location)):
 		f = open(location)

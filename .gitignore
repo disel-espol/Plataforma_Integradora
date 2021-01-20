@@ -235,4 +235,3 @@ pip-selfcheck.json
 .ssh/
 emulab.pem
 output.txt
-logs.txt
