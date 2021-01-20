@@ -45,8 +45,12 @@ then
 		echo "Pronto"
 	elif [[ $2 == "Ubuntu 20.04 LTS" ]]; 
 	then
-		# Por agregar opcion
-		echo "Pronto"
+		/usr/bin/expect <<-EOD
+		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d430-u20
+		expect "Enter PEM pass phrase:"
+		send "$passCred\r"
+		expect eod
+		EOD
 	else
 		echo "The OS does not exists"
 		exit
@@ -67,8 +71,12 @@ then
 		echo "Pronto"
 	elif [[ $2 == "Ubuntu 20.04 LTS" ]];
 	then
-		# Por agregar opcion
-		echo "Pronto"
+		/usr/bin/expect <<-EOD
+		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d710-u20
+		expect "Enter PEM pass phrase:"
+		send "$passCred\r"
+		expect eod
+		EOD
 	else
 		echo "The OS does not exists"
 		exit

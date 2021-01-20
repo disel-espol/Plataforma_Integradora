@@ -5,5 +5,13 @@
 		"fields": {
 			"name":"Ubuntu 18.04 LTS"
 		}
+	},
+
+	{
+		"model":"interfaz.OSType",
+		"pk":2,
+		"fields": {
+			"name":"Ubuntu 20.04 LTS"
+		}
 	}
 ]
