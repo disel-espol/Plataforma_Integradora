@@ -101,6 +101,7 @@ def readFile(request):
 	return JsonResponse({'line':line, 'dbCount':dbCount, 'line2':line2})
 
 def readLogs(request):
+	os.makedirs("media", exist_ok=True)
 	Popen(['bash','tools/bin/logs.sh'])
 	location = os.path.join(settings.MEDIA_ROOT, 'logs.txt')
 	lines=""
