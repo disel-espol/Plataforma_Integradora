@@ -127,8 +127,8 @@ echo "$userC"
 if [[ $7 == "exist" ]];
 then
 	/usr/bin/expect <<-EOD
-	spawn ssh -p 22 -o ServerAliveInterval=30 $userC
-	expect {
+	spawn scp -P 22 $workdir/media/mysql.cnf $userC:./
+		expect {
 		"Are you sure you want to continue connecting*" {
 			send "yes\r"
 		}
@@ -140,20 +140,19 @@ then
 		"Enter passphrase for key*" {
 			send "$passKey\r"
 		}
-		"*>" {
-			send "echo ok\r"
-		}
+		eod 
 	}
-	expect "*>"
-	send "sudo chmod 777 ~/sandboxes/msb_8_0_22/my.sandbox.cnf\r"
-	expect "*>"
-	send "exit\r"
-	expect eod
 	EOD
 	/usr/bin/expect <<-EOD
-	spawn scp -P 22 $workdir/media/mysql.cnf $userC:~/sandboxes/msb_8_0_22/my.sandbox.cnf
+	spawn ssh -p 22 -o ServerAliveInterval=30 $userC
 	expect "Enter passphrase for key*"
 	send "$passKey\r"
+	expect "*>"
+	send "sudo mv mysql.cnf ~/sandboxes/msb_8_0_22/my.sandbox.cnf\r"
+	expect "*>"
+	send "sudo chmod 644 ~/sandboxes/msb_8_0_22/my.sandbox.cnf\r"
+	expect "*>"
+	send "sudo ~/sandboxes/msb_8_0_22/restart\r"
 	expect eod
 	EOD
 fi
@@ -183,6 +182,12 @@ then
 	expect "*>"
 	send "sudo mv postgresql.conf /etc/postgresql/13/main\r"
 	expect "*>"
+	send "sudo chown postgres -R /etc/postgresql/13/main\r"
+	expect "*>"
+	send "sudo pg_ctlcluster 13 main start\r"
+	expect "*>"
+	send "sudo service postgresql restart\r"
+	expect "*>"
 	send "exit\r"
 	expect eod
 	EOD
@@ -190,7 +195,7 @@ fi
 if [[ $9 == "exist" ]];
 then
 	/usr/bin/expect <<-EOD
-	spawn ssh -p 22 -o ServerAliveInterval=30 $userC
+	spawn scp -P 22 $workdir/media/mariadb.cnf $userC:./
 	expect {
 		"Are you sure you want to continue connecting*" {
 			send "yes\r"
@@ -203,20 +208,19 @@ then
 		"Enter passphrase for key*" {
 			send "$passKey\r"
 		}
-		"*>" {
-			send "echo ok\r"
-		}
+		eod
 	}
-	expect "*>"
-	send "sudo chmod 777 ~/sandboxes/msb_10_5_8/my.sandbox.cnf\r"
-	expect "*>"
-	send "exit\r"
-	expect eod
 	EOD
 	/usr/bin/expect <<-EOD
-	spawn scp -P 22 $workdir/media/mariadb.cnf $userC:~/sandboxes/msb_10_5_8/my.sandbox.cnf
+	spawn ssh -p 22 -o ServerAliveInterval=30 $userC
 	expect "Enter passphrase for key*"
 	send "$passKey\r"
+	expect "*>"
+	send "sudo mv mariadb.cnf ~/sandboxes/msb_10_5_8/my.sandbox.cnf\r"
+	expect "*>"
+	send "sudo chmod 644 ~/sandboxes/msb_10_5_8/my.sandbox.cnf\r"
+	expect "*>"
+	send "sudo ~/sandboxes/msb_10_5_8/restart\r"
 	expect eod
 	EOD
 fi
