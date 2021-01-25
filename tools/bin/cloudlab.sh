@@ -41,8 +41,12 @@ then
 		EOD
 	elif [[ $2 == "Ubuntu 16.04 LTS" ]]; 
 	then
-		# Por agregar opcion
-		echo "Pronto"
+		/usr/bin/expect <<-EOD
+		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d430-u16
+		expect "Enter PEM pass phrase:"
+		send "$passCred\r"
+		expect eod
+		EOD
 	elif [[ $2 == "Ubuntu 20.04 LTS" ]]; 
 	then
 		/usr/bin/expect <<-EOD
@@ -67,8 +71,12 @@ then
 		EOD
 	elif [[ $2 == "Ubuntu 16.04 LTS" ]]; 
 	then
-		# Por agregar opcion
-		echo "Pronto"
+		/usr/bin/expect <<-EOD
+		spawn $workdir/tools/bin/startExperiment --project ESPOL-sched --duration 2 --name comp-rdbms ESPOL-sched,tpcc-d710-u16
+		expect "Enter PEM pass phrase:"
+		send "$passCred\r"
+		expect eod
+		EOD
 	elif [[ $2 == "Ubuntu 20.04 LTS" ]];
 	then
 		/usr/bin/expect <<-EOD

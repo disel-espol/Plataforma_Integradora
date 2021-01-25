@@ -3,13 +3,21 @@
 		"model":"interfaz.OSType",
 		"pk":1,
 		"fields": {
+			"name":"Ubuntu 16.04 LTS"
+		}
+	},
+	
+	{
+		"model":"interfaz.OSType",
+		"pk":2,
+		"fields": {
 			"name":"Ubuntu 18.04 LTS"
 		}
 	},
 
 	{
 		"model":"interfaz.OSType",
-		"pk":2,
+		"pk":3,
 		"fields": {
 			"name":"Ubuntu 20.04 LTS"
 		}
