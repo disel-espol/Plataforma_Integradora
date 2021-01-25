@@ -68,9 +68,6 @@ def progress(request):
 	db3 = request.session['db3']
 	return render(request, 'progress.html', {'db1':db1, 'db2':db2, 'db3':db3})
 
-def results(request):
-	return render(request, 'results.html')
-
 def availNodes(code):
 	command = "curl -s -k https://emulab.net/portal/frontpage.php | grep "+str(code)+" -C 2 | tail -1 | sed 's/>/</g' | cut -d'<' -f3"
 	return getoutput(command)

@@ -128,7 +128,7 @@ if [[ $7 == "exist" ]];
 then
 	/usr/bin/expect <<-EOD
 	spawn scp -P 22 $workdir/media/mysql.cnf $userC:./
-		expect {
+	expect {
 		"Are you sure you want to continue connecting*" {
 			send "yes\r"
 		}
