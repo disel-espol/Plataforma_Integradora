@@ -42,11 +42,11 @@ docker-compose up -d
 
 En la carpeta tools se encuentran algunos archivos muy necesarios para el proyecto. Estos necesitan el salto de línea del formato Unix y también dependen de soft links entre archivos. Por esta razón se creó el archivo **docker.sh**, para ayudar con la conversión y creación de soft links. 
 
-Como el proyecto fue hecho en Windows, el archivo **docker.sh** también necesita conversión del salto de línea previo a su uso, esto se lo puede logar ejecutando el comando:
+Como el proyecto fue hecho en Windows, el archivo **docker.sh** también necesita conversión del salto de línea previo a su uso, esto se lo puede logar ejecutando el siguiente comando usando una terminal de Ubuntu para Windows:
 ```
 dos2unix docker.sh
 ```
-Una vez hecha la conversión, puede ejecutar el archivo.
+Una vez hecha la conversión, puede ejecutar el archivo. Nótese que una vez realizado esto, no podrá volver a ejecutar los comandos de build y up de docker en Windows, por lo que se recomienda crear una copia de la carpeta tools antes de ejecutar este script.
 
 ### Cambios en fixtures
 Información de tipos de hardware, sistemas operativos y rdbms (mostradas como opciones en la plataforma web) se encuentran detallas en la carpeta **fixtures**, son útiles ya que facilitan la carga de información en los modelos de Django. Cuando se agregue información a cualquiera de estos fixtures se necesitará actualizar los modelos, para esto está el archivo **load_fixtures.py** y lo puede ejecutar con:
