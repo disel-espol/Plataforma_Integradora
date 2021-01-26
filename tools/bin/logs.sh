@@ -1,3 +1,5 @@
+#!/bin/bash
+
 usuario=$(printenv USER)
 workdir=$(printenv PWD)
 passCred="" #Passphrase for the credentials downloaded from CloudLab

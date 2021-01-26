@@ -1,3 +1,5 @@
+#!/bin/bash
+
 dos2unix ./tools/emulab-xmlrpc/*
 dos2unix ./tools/bin/*
 cd tools/bin
