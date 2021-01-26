@@ -142,6 +142,10 @@ then
 		}
 		eod 
 	}
+	expect {
+		eod
+		return
+	}
 	EOD
 	/usr/bin/expect <<-EOD
 	spawn ssh -p 22 -o ServerAliveInterval=30 $userC
@@ -173,6 +177,10 @@ then
 			send "$passKey\r"
 		}
 		eod 
+	}
+	expect {
+		eod
+		return
 	}
 	EOD
 	/usr/bin/expect <<-EOD
@@ -209,6 +217,10 @@ then
 			send "$passKey\r"
 		}
 		eod
+	}
+	expect {
+		eod
+		return
 	}
 	EOD
 	/usr/bin/expect <<-EOD
@@ -247,8 +259,6 @@ then
 			send "echo ok\r"
 		}
 	}
-	expect "*>"
-	send "sudo ~/sandboxes/msb_8_0_22/restart\r"
 	expect "*>"
 	send "sudo ~/sandboxes/msb_8_0_22/use -uroot -pmsandbox -e \"CREATE DATABASE database_mysql;\"\r"
 	expect "*>"
@@ -304,8 +314,6 @@ then
 		}
 	}
 	expect "*>"
-	send "sudo service postgresql restart\r"
-	expect "*>"
 	send "sudo -u postgres psql -c \"ALTER USER postgres PASSWORD '12345';\"\r"
 	expect "*>"
 	send "sudo -u postgres psql -c \"CREATE DATABASE database_postgres;\"\r"
@@ -360,8 +368,6 @@ then
 			send "echo ok\r"
 		}
 	}
-	expect "*>"
-	send "sudo ~/sandboxes/msb_10_5_8/restart\r"
 	expect "*>"
 	send "sudo ~/sandboxes/msb_10_5_8/use -uroot -pmsandbox -e \"CREATE DATABASE database_mariadb;\"\r"
 	expect "*>"
